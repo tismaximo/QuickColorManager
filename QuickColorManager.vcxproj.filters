@@ -15,27 +15,27 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\CMakeProject2\QuickColorManager.cpp">
+    <ClCompile Include="src\Logger.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
-    <ClCompile Include="..\CMakeProject2\src\SettingsManager.cpp">
+    <ClCompile Include="src\Monitor.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
-    <ClCompile Include="..\CMakeProject2\src\Logger.cpp">
+    <ClCompile Include="src\MonitorGetter.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
-    <ClCompile Include="..\CMakeProject2\src\Monitor.cpp">
+    <ClCompile Include="src\QuickColorManager.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
-    <ClCompile Include="..\CMakeProject2\src\MonitorGetter.cpp">
+    <ClCompile Include="src\SettingsManager.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
-    <ClCompile Include="..\CMakeProject2\src\Tester.cpp">
+    <ClCompile Include="src\Tester.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\CMakeProject2\QuickColorManager.h">
+    <ClInclude Include="include\QuickColorManager.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
   </ItemGroup>

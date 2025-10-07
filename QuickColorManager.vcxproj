@@ -18,6 +18,17 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\Logger.cpp" />
+    <ClCompile Include="src\Monitor.cpp" />
+    <ClCompile Include="src\MonitorGetter.cpp" />
+    <ClCompile Include="src\QuickColorManager.cpp" />
+    <ClCompile Include="src\SettingsManager.cpp" />
+    <ClCompile Include="src\Tester.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include\QuickColorManager.h" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
@@ -123,17 +134,6 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClCompile Include="..\CMakeProject2\QuickColorManager.cpp" />
-    <ClCompile Include="..\CMakeProject2\src\SettingsManager.cpp" />
-    <ClCompile Include="..\CMakeProject2\src\Logger.cpp" />
-    <ClCompile Include="..\CMakeProject2\src\Monitor.cpp" />
-    <ClCompile Include="..\CMakeProject2\src\MonitorGetter.cpp" />
-    <ClCompile Include="..\CMakeProject2\src\Tester.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="..\CMakeProject2\QuickColorManager.h" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
