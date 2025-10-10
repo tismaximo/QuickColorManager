@@ -34,6 +34,7 @@ int App::doGet(int id, std::vector<std::string> features, std::vector<uint8_t>& 
             Logger::log("ERROR: Feature not found: " + features[i]);
             return ARG_ERROR;
         }
+
         bool success = m.get(arg->second, vals[i]);
         if (!success) {
             return VAL_ERROR;
