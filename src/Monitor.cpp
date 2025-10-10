@@ -1,9 +1,13 @@
 #include "../include/QuickColorManager.h"
 
-Monitor::Monitor(HANDLE handle): handle(handle) {
+Monitor::Monitor(HANDLE handle, DISPLAY_DEVICE info): handle(handle), info(info) {
 }
 
-bool Monitor::set(VcpCapability feature, uint8_t val) {
+DISPLAY_DEVICE Monitor::getInfo() {
+	return this->info;
+}
+
+bool Monitor::set(VcpFeature feature, uint8_t val) {
 	bool success = SetVCPFeature(this->handle, feature, val);
 
 	std::string text = hexString(feature);
@@ -22,7 +26,7 @@ bool Monitor::set(VcpCapability feature, uint8_t val) {
 }
 
 
-bool Monitor::get(VcpCapability feature, uint8_t& val) {
+bool Monitor::get(VcpFeature feature, uint8_t& val) {
 	DWORD wordval = val;
 	bool success = GetVCPFeatureAndVCPFeatureReply(this->handle, feature, nullptr, &wordval, nullptr);
 
@@ -64,6 +68,10 @@ std::string Monitor::getMonitorString(std::string str = "") {
 	size_t endSecond = str.find(")", endFirst + 1);
 	size_t len = endSecond - start + 1;
 	return str.substr(start, len);
+}
+
+bool Monitor::operator==(const Monitor& that) const{
+	return this->handle == that.handle;
 }
 
 Monitor::~Monitor() {

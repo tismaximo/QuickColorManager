@@ -24,26 +24,37 @@ static bool findCapabilitiesInSubstring(const std::vector<int>& capabilities, co
 		if (it != lookup.end()) {
 			text = it->second;
 		}
+
 		if (pos == std::string::npos) {
-			Logger::log("Capability NOT supported: " + text);
+			Logger::log("Feature NOT supported: " + text);
 			flag = false;
 			continue;
 		}
-		Logger::log("Capability supported: " + text);
+		Logger::log("Feature supported: " + text);
 	}
 	return flag;
 }
 
 
-bool Tester::testCapabilities(Monitor h) {
+bool Tester::testAll(const std::vector<Monitor>& monitors) {
 	bool result = true;
 
-	std::string str = h.getCapabilitiesString();
-	std::string model = h.getMonitorString(str);
+	for (Monitor m : monitors) {
+		result = Tester::testFeatures(m);
+	}
+
+	return result;
+}
+
+bool Tester::testFeatures(Monitor monitor) {
+	bool result = true;
+	std::string str = monitor.getCapabilitiesString();
+	std::string model = monitor.getMonitorString(str);
 	std::string match = "vcp(";
 	size_t startVcp = str.find(match);
+
 	if (startVcp == std::string::npos) {
-		Logger::log("Your monitor (" + model + ") doesnt support any of the supported VCP options (brightness, contrast, etc). Changing these settings in this program is likely not going to work.");
+		Logger::log("Your monitor (" + model + ") doesnt support any of the supported VCP features (brightness, contrast, etc). Changing these settings in this program is likely not going to work.");
 		return result = false;
 	}
 
@@ -53,7 +64,7 @@ bool Tester::testCapabilities(Monitor h) {
 	result = findCapabilitiesInSubstring(EXPECTED_VCP_CAPABILITIES, VCP_STRINGS, vcp);
 
 	if (!result) {
-		Logger::log("The monitor (" + model + ") didn't pass the test, some functionalities might not work on it. NOTE: Gamma is expected not to work in most monitors.");
+		Logger::log("The monitor (" + model + ") doesnt support all VCP features, some features might not work on it. NOTE: The gamma feature is expected not to work in most monitors.");
 	}
 	else {
 		Logger::log("The monitor (" + model + ") passed the test!");

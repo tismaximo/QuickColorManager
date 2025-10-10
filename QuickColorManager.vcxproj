@@ -19,6 +19,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\App.cpp" />
+    <ClCompile Include="src\ConsoleApp.cpp" />
     <ClCompile Include="src\Logger.cpp" />
     <ClCompile Include="src\Monitor.cpp" />
     <ClCompile Include="src\MonitorGetter.cpp" />

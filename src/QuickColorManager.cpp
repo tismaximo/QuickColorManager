@@ -1,11 +1,16 @@
 ﻿#include "../include/QuickColorManager.h"
 
-#pragma comment(lib, "Dxva2.lib")
-
-int main() {
+int main(int argc, char* argv[]) {
     MonitorGetter getter;
     auto monitors = getter.getAll();
-    for (Monitor m : monitors) {
-        Tester::testCapabilities(m);
-    }
+    App app(monitors);
+    ConsoleApp capp(app);
+    capp.parseArgs(argc, argv);
+    std::cout << app.doListDevices();
+
+#ifndef NDEBUG
+    std::cout << "Press ENTER to exit.";
+    std::cin.get();
+#endif
+    return 0;
 };

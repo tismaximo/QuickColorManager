@@ -15,6 +15,12 @@
 #include <sstream>
 #include <iomanip> 
 #include <mutex>
+#include <thread>
+#include <algorithm>
+#include <codecvt>
+#include <cstdlib>
+
+#pragma comment(lib, "Dxva2.lib")
 
 static std::string hexString(const int& num) {
 	std::stringstream ss;
@@ -23,13 +29,18 @@ static std::string hexString(const int& num) {
 	return hexCode;
 }
 
+static std::string unwide(const std::wstring& wstr) {
+	std::wstring_convert<std::codecvt_utf8<wchar_t>> converter;
+	return converter.to_bytes(wstr);
+}
+
 enum CmdCapability {
 	GET  = 0x01,
 	SET  = 0x02,
 	SAVE = 0x03
 };
 
-enum VcpCapability {
+enum VcpFeature {
 	 BRIGHTNESS	   = 0x10,
 	 CONTRAST      = 0x12,
 	 GAMMA         = 0x72,
@@ -78,6 +89,7 @@ const std::map<int, std::string> VCP_STRINGS = {
 
 struct Settings {
 public:
+	std::string alias;
 	uint8_t brightness;
 	uint8_t contrast;
 	uint8_t gamma;
@@ -85,6 +97,7 @@ public:
 	uint8_t greenBalance;
 	uint8_t blueBalance;
 	Settings(
+		std::string alias,
 		uint8_t brightness   = 70,
 		uint8_t contrast     = 70,
 		uint8_t gamma        = 70,
@@ -92,6 +105,7 @@ public:
 		uint8_t greenBalance = 70,
 		uint8_t blueBalance  = 70
 	) :
+		alias(alias),
 		brightness(brightness),
 		contrast(contrast),
 		gamma(gamma),
@@ -99,39 +113,48 @@ public:
 		greenBalance(greenBalance),
 		blueBalance(blueBalance)
 	{}
-	std::string str() {
+	std::string str() const {
 		std::ostringstream ss;
-		ss << "Settings:\nBrightness: " << +this->brightness
-			<< "\nContrast: " << +this->contrast
-			<< "\nGamma: " << +this->gamma
-			<< "\nRed balance: " << +this->redBalance
-			<< "\nGreen balance: " << +this->greenBalance
-			<< "\nBlue balance: " << +this->blueBalance;
+		ss << "Settings From " << this->alias << ":\nBrightness : " << +this->brightness
+		<< "\nContrast: " << +this->contrast
+		<< "\nGamma: " << +this->gamma
+		<< "\nRed balance: " << +this->redBalance
+		<< "\nGreen balance: " << +this->greenBalance
+		<< "\nBlue balance: " << +this->blueBalance;
 		return ss.str();
 	}
+};
+
+struct MonitorInformationPair {
+public:
+	std::vector<PHYSICAL_MONITOR> monitors;
+	std::vector<DISPLAY_DEVICE> info;
 };
 
 class Logger {
 public:
 	static void log(const std::string& message);
-	static void log(const Settings& settings);
+	static void log(std::vector<std::string> messages);
 };
 
 class Monitor {
 protected:
 	HANDLE handle;
+	DISPLAY_DEVICE info;
 public:
-	Monitor(HANDLE);
-	bool set(VcpCapability, uint8_t);
-	bool get(VcpCapability, uint8_t&);
+	Monitor(HANDLE, DISPLAY_DEVICE);
+	bool set(VcpFeature, uint8_t val);
+	bool get(VcpFeature, uint8_t& val);
 	std::string getCapabilitiesString();
 	std::string getMonitorString(std::string);
+	DISPLAY_DEVICE getInfo();
+	bool operator==(const Monitor& that) const;
 	~Monitor();
 };
 
 class MonitorGetter {
 protected:
-	std::vector<PHYSICAL_MONITOR> monitors;
+	MonitorInformationPair mip;
 public:
 	MonitorGetter();
 	std::vector<Monitor> getAll();
@@ -140,7 +163,8 @@ public:
 
 class Tester {
 public:
-	static bool testCapabilities(Monitor h);
+	static bool testAll(const std::vector<Monitor>&);
+	static bool testFeatures(Monitor);
 };
 
 class SettingsManager {
@@ -149,9 +173,29 @@ protected:
 public:
 	SettingsManager(std::string);
 	bool save(Settings);
-	bool load(Settings&);
+	bool load(std::string alias, Settings&) const;
 	bool apply(Monitor, Settings);
 	bool getFromMonitor(Monitor, Settings&);
+};
+
+class App {
+protected:
+	std::vector<Monitor> monitors;
+	SettingsManager manager;
+public:
+	App(std::vector<Monitor> monitors, SettingsManager manager);
+	int doSet(std::vector<std::string> features, uint8_t val);
+	int doGet(std::vector<std::string> features, uint8_t& val, bool maxvalues);
+	int doLoad(std::string settingsAlias);
+	int doSave(std::string settingsAlias);
+	std::string doListDevices();
+	std::string doListSettings();
+};
+
+class ConsoleApp : public App {
+public:
+	ConsoleApp(std::vector<Monitor>, SettingsManager);
+	int parseArgs(int argc, char* argv[]);
 };
 
 #endif

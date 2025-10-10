@@ -18,3 +18,143 @@
 [2025-10-07 18:35:39] Capability NOT supported: Automatic adjust colors
 [2025-10-07 18:35:39] Capability supported: Restore
 [2025-10-07 18:35:39] The monitor (type(LCD)model(550)) didn't pass the test, some functionalities might not work on it. NOTE: Gamma is expected not to work in most monitors.
+[2025-10-07 18:54:24] Capability supported: Contrast
+[2025-10-07 18:54:24] Capability supported: Brightness
+[2025-10-07 18:54:24] Capability NOT supported: Gamma
+[2025-10-07 18:54:24] Capability supported: Red balance
+[2025-10-07 18:54:24] Capability supported: Green balance
+[2025-10-07 18:54:24] Capability supported: Blue balance
+[2025-10-07 18:54:24] Capability supported: Automatic adjust settings
+[2025-10-07 18:54:24] Capability supported: Automatic adjust colors
+[2025-10-07 18:54:24] Capability supported: Restore
+[2025-10-07 18:54:24] The monitor (type(LCD)model(VX2458-mhd)) didn't pass the test, some functionalities might not work on it. NOTE: Gamma is expected not to work in most monitors.
+[2025-10-07 18:54:25] Capability supported: Contrast
+[2025-10-07 18:54:25] Capability supported: Brightness
+[2025-10-07 18:54:25] Capability NOT supported: Gamma
+[2025-10-07 18:54:25] Capability supported: Red balance
+[2025-10-07 18:54:25] Capability supported: Green balance
+[2025-10-07 18:54:25] Capability supported: Blue balance
+[2025-10-07 18:54:25] Capability NOT supported: Automatic adjust settings
+[2025-10-07 18:54:25] Capability NOT supported: Automatic adjust colors
+[2025-10-07 18:54:25] Capability supported: Restore
+[2025-10-07 18:54:25] The monitor (type(LCD)model(550)) didn't pass the test, some functionalities might not work on it. NOTE: Gamma is expected not to work in most monitors.
+[2025-10-07 18:54:57] Capability supported: Contrast
+[2025-10-07 18:54:57] Capability supported: Brightness
+[2025-10-07 18:54:57] Capability NOT supported: Gamma
+[2025-10-07 18:54:57] Capability supported: Red balance
+[2025-10-07 18:54:57] Capability supported: Green balance
+[2025-10-07 18:54:57] Capability supported: Blue balance
+[2025-10-07 18:54:57] Capability supported: Automatic adjust settings
+[2025-10-07 18:54:57] Capability supported: Automatic adjust colors
+[2025-10-07 18:54:57] Capability supported: Restore
+[2025-10-07 18:54:57] The monitor (type(LCD)model(VX2458-mhd)) didn't pass the test, some functionalities might not work on it. NOTE: Gamma is expected not to work in most monitors.
+[2025-10-07 18:54:59] Capability supported: Contrast
+[2025-10-07 18:54:59] Capability supported: Brightness
+[2025-10-07 18:54:59] Capability NOT supported: Gamma
+[2025-10-07 18:54:59] Capability supported: Red balance
+[2025-10-07 18:54:59] Capability supported: Green balance
+[2025-10-07 18:54:59] Capability supported: Blue balance
+[2025-10-07 18:54:59] Capability NOT supported: Automatic adjust settings
+[2025-10-07 18:54:59] Capability NOT supported: Automatic adjust colors
+[2025-10-07 18:54:59] Capability supported: Restore
+[2025-10-07 18:54:59] The monitor (type(LCD)model(550)) didn't pass the test, some functionalities might not work on it. NOTE: Gamma is expected not to work in most monitors.
+[2025-10-07 18:55:15] Capability supported: Contrast
+[2025-10-07 18:55:15] Capability supported: Brightness
+[2025-10-07 18:55:15] Capability NOT supported: Gamma
+[2025-10-07 18:55:15] Capability supported: Red balance
+[2025-10-07 18:55:15] Capability supported: Green balance
+[2025-10-07 18:55:15] Capability supported: Blue balance
+[2025-10-07 18:55:15] Capability supported: Automatic adjust settings
+[2025-10-07 18:55:15] Capability supported: Automatic adjust colors
+[2025-10-07 18:55:15] Capability supported: Restore
+[2025-10-07 18:55:15] The monitor (type(LCD)model(VX2458-mhd)) didn't pass the test, some functionalities might not work on it. NOTE: Gamma is expected not to work in most monitors.
+[2025-10-07 18:55:17] Capability supported: Contrast
+[2025-10-07 18:55:17] Capability supported: Brightness
+[2025-10-07 18:55:17] Capability NOT supported: Gamma
+[2025-10-07 18:55:17] Capability supported: Red balance
+[2025-10-07 18:55:17] Capability supported: Green balance
+[2025-10-07 18:55:17] Capability supported: Blue balance
+[2025-10-07 18:55:17] Capability NOT supported: Automatic adjust settings
+[2025-10-07 18:55:17] Capability NOT supported: Automatic adjust colors
+[2025-10-07 18:55:17] Capability supported: Restore
+[2025-10-07 18:55:17] The monitor (type(LCD)model(550)) didn't pass the test, some functionalities might not work on it. NOTE: Gamma is expected not to work in most monitors.
+[2025-10-07 18:55:36] Capability supported: Contrast
+[2025-10-07 18:55:36] Capability supported: Brightness
+[2025-10-07 18:55:36] Capability NOT supported: Gamma
+[2025-10-07 18:55:36] Capability supported: Red balance
+[2025-10-07 18:55:36] Capability supported: Green balance
+[2025-10-07 18:55:36] Capability supported: Blue balance
+[2025-10-07 18:55:36] Capability supported: Automatic adjust settings
+[2025-10-07 18:55:36] Capability supported: Automatic adjust colors
+[2025-10-07 18:55:36] Capability supported: Restore
+[2025-10-07 18:55:36] The monitor (type(LCD)model(VX2458-mhd)) didn't pass the test, some functionalities might not work on it. NOTE: Gamma is expected not to work in most monitors.
+[2025-10-07 18:55:37] Capability supported: Contrast
+[2025-10-07 18:55:37] Capability supported: Brightness
+[2025-10-07 18:55:37] Capability NOT supported: Gamma
+[2025-10-07 18:55:37] Capability supported: Red balance
+[2025-10-07 18:55:37] Capability supported: Green balance
+[2025-10-07 18:55:37] Capability supported: Blue balance
+[2025-10-07 18:55:37] Capability NOT supported: Automatic adjust settings
+[2025-10-07 18:55:37] Capability NOT supported: Automatic adjust colors
+[2025-10-07 18:55:37] Capability supported: Restore
+[2025-10-07 18:55:37] The monitor (type(LCD)model(550)) didn't pass the test, some functionalities might not work on it. NOTE: Gamma is expected not to work in most monitors.
+[2025-10-07 20:17:39] Feature supported: Contrast
+[2025-10-07 20:17:39] Feature supported: Brightness
+[2025-10-07 20:17:39] Feature NOT supported: Gamma
+[2025-10-07 20:17:39] Feature supported: Red balance
+[2025-10-07 20:17:39] Feature supported: Green balance
+[2025-10-07 20:17:39] Feature supported: Blue balance
+[2025-10-07 20:17:39] Feature supported: Automatic adjust settings
+[2025-10-07 20:17:39] Feature supported: Automatic adjust colors
+[2025-10-07 20:17:39] Feature supported: Restore
+[2025-10-07 20:17:39] The monitor (type(LCD)model(VX2458-mhd)) doesnt support all VCP features, some features might not work on it. NOTE: The gamma feature is expected not to work in most monitors.
+[2025-10-07 20:17:41] Feature supported: Contrast
+[2025-10-07 20:17:41] Feature supported: Brightness
+[2025-10-07 20:17:41] Feature NOT supported: Gamma
+[2025-10-07 20:17:41] Feature supported: Red balance
+[2025-10-07 20:17:41] Feature supported: Green balance
+[2025-10-07 20:17:41] Feature supported: Blue balance
+[2025-10-07 20:17:41] Feature NOT supported: Automatic adjust settings
+[2025-10-07 20:17:41] Feature NOT supported: Automatic adjust colors
+[2025-10-07 20:17:41] Feature supported: Restore
+[2025-10-07 20:17:41] The monitor (type(LCD)model(550)) doesnt support all VCP features, some features might not work on it. NOTE: The gamma feature is expected not to work in most monitors.
+[2025-10-08 09:45:12] Feature supported: Contrast
+[2025-10-08 09:45:12] Feature supported: Contrast
+[2025-10-08 09:45:12] Feature supported: Brightness
+[2025-10-08 09:45:12] Feature supported: Brightness
+[2025-10-08 09:45:12] Feature NOT supported: Gamma
+[2025-10-08 09:45:12] Feature NOT supported: Gamma
+[2025-10-08 09:45:12] Feature supported: Red balance
+[2025-10-08 09:45:12] Feature supported: Red balance
+[2025-10-08 09:45:12] Feature supported: Green balance
+[2025-10-08 09:45:12] Feature supported: Green balance
+[2025-10-08 09:45:12] Feature supported: Blue balance
+[2025-10-08 09:45:12] Feature supported: Blue balance
+[2025-10-08 09:45:12] Feature supported: Automatic adjust settings
+[2025-10-08 09:45:12] Feature NOT supported: Automatic adjust settings
+[2025-10-08 09:45:12] Feature supported: Automatic adjust colors
+[2025-10-08 09:45:12] Feature NOT supported: Automatic adjust colors
+[2025-10-08 09:45:12] Feature supported: Restore
+[2025-10-08 09:45:12] Feature supported: Restore
+[2025-10-08 09:45:12] The monitor (type(LCD)model(VX2458-mhd)) doesnt support all VCP features, some features might not work on it. NOTE: The gamma feature is expected not to work in most monitors.
+[2025-10-08 09:45:12] The monitor (type(LCD)model(550)) doesnt support all VCP features, some features might not work on it. NOTE: The gamma feature is expected not to work in most monitors.
+[2025-10-08 09:46:38] Feature supported: Contrast
+[2025-10-08 09:46:38] Feature supported: Brightness
+[2025-10-08 09:46:38] Feature NOT supported: Gamma
+[2025-10-08 09:46:38] Feature supported: Red balance
+[2025-10-08 09:46:38] Feature supported: Green balance
+[2025-10-08 09:46:38] Feature supported: Blue balance
+[2025-10-08 09:46:38] Feature supported: Automatic adjust settings
+[2025-10-08 09:46:38] Feature supported: Automatic adjust colors
+[2025-10-08 09:46:38] Feature supported: Restore
+[2025-10-08 09:46:38] The monitor (type(LCD)model(VX2458-mhd)) doesnt support all VCP features, some features might not work on it. NOTE: The gamma feature is expected not to work in most monitors.
+[2025-10-08 09:46:39] Feature supported: Contrast
+[2025-10-08 09:46:39] Feature supported: Brightness
+[2025-10-08 09:46:39] Feature NOT supported: Gamma
+[2025-10-08 09:46:39] Feature supported: Red balance
+[2025-10-08 09:46:39] Feature supported: Green balance
+[2025-10-08 09:46:39] Feature supported: Blue balance
+[2025-10-08 09:46:39] Feature NOT supported: Automatic adjust settings
+[2025-10-08 09:46:39] Feature NOT supported: Automatic adjust colors
+[2025-10-08 09:46:39] Feature supported: Restore
+[2025-10-08 09:46:39] The monitor (type(LCD)model(550)) doesnt support all VCP features, some features might not work on it. NOTE: The gamma feature is expected not to work in most monitors.

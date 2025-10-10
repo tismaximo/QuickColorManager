@@ -19,3 +19,12 @@ void Logger::log(const std::string& message) {
     }
     std::cout << message << "\n";
 }
+
+void Logger::log(std::vector<std::string> messages) {
+    static std::mutex mtx;
+    std::lock_guard<std::mutex> lock(mtx);
+
+    for (std::string m : messages) {
+        Logger::log(m);
+    }
+}
