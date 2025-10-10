@@ -19,6 +19,7 @@
 #include <algorithm>
 #include <codecvt>
 #include <cstdlib>
+#include <utility>
 
 #pragma comment(lib, "Dxva2.lib")
 
@@ -32,6 +33,22 @@ static std::string hexString(const int& num) {
 static std::string unwide(const std::wstring& wstr) {
 	std::wstring_convert<std::codecvt_utf8<wchar_t>> converter;
 	return converter.to_bytes(wstr);
+}
+
+static int valueFromArg(std::string arg) {
+	std::stringstream ss;
+	std::string word;
+
+	while (ss >> word) {
+		try {
+			return std::stoi(word);
+		}
+		catch (const std::invalid_argument& e) {
+			continue;
+		}
+	}
+
+	return -1;
 }
 
 enum CmdCapability {
@@ -50,6 +67,12 @@ enum VcpFeature {
 	 AUTO_ADJUST   = 0xAE,
 	 AUTO_COLOR    = 0xAC,
 	 RESTORE	   = 0x04
+};
+
+enum Errors {
+	ARG_ERROR,
+	VAL_ERROR,
+	FILE_ERROR
 };
 
 
@@ -86,6 +109,16 @@ const std::map<int, std::string> VCP_STRINGS = {
 	{AUTO_ADJUST, "Automatic adjust settings"},
 	{AUTO_COLOR, "Automatic adjust colors"}
 };
+const std::map<std::string, VcpFeature> VCP_ARGS = {
+	{"-brightness", BRIGHTNESS},
+	{"-contrast", CONTRAST},
+	{"-gamma", GAMMA},
+	{"-redbalance", RED_BALANCE},
+	{"-greenbalance", GREEN_BALANCE},
+	{"-bluebalance", BLUE_BALANCE}
+};
+
+
 
 struct Settings {
 public:
@@ -176,6 +209,7 @@ public:
 	bool load(std::string alias, Settings&) const;
 	bool apply(Monitor, Settings);
 	bool getFromMonitor(Monitor, Settings&);
+	std::vector<std::string> list();
 };
 
 class App {
@@ -184,18 +218,21 @@ protected:
 	SettingsManager manager;
 public:
 	App(std::vector<Monitor> monitors, SettingsManager manager);
-	int doSet(std::vector<std::string> features, uint8_t val);
-	int doGet(std::vector<std::string> features, uint8_t& val, bool maxvalues);
-	int doLoad(std::string settingsAlias);
-	int doSave(std::string settingsAlias);
-	std::string doListDevices();
-	std::string doListSettings();
+	int doSet(int id, std::vector<std::string> features, std::vector<uint8_t> vals);
+	int doGet(int id, std::vector<std::string> features, std::vector<uint8_t>& vals, bool maxvalues);
+	int doLoad(int id, std::string settingsAlias);
+	int doSave(int id, std::string settingsAlias);
+	std::vector<std::string> doListDevices();
+	std::vector<std::string> doListSettings();
 };
 
 class ConsoleApp : public App {
 public:
 	ConsoleApp(std::vector<Monitor>, SettingsManager);
+	std::pair<std::string, uint8_t> parseArgValue(std::string searchArg, char arg[], char value[]);
 	int parseArgs(int argc, char* argv[]);
+	bool pushArgTo(std::string searchArg, char arg[], char value[], std::vector<std::string>& features, std::vector<uint8_t>& vals);
+	void printList(std::vector<std::string>);
 };
 
 #endif
