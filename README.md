@@ -1,7 +1,7 @@
 # Quick Color Manager
 Tool to quickly change, modify or apply different monitor settings such as brightness, contrast or color balances using DDC/CI.
 ## Command line version  
-https://github.com/tismaximo/QuickColorManager/releases/tag/v1.0.0  
+https://github.com/tismaximo/QuickColorManager/releases/tag/v1.0.0 (Currently being false positived as a trojan. for now, you will have to compile the Visual Studio project yourself to make it work on your machine)  
 ### Available commands:  
 - `list devices`: Lists all available devices. This command will give you the `device-id` parameter which will be passed to the next commands to specify the device to operate on.  
 - `list settings`: Lists all available settings. There will always be atleast one default settings option for each device.  
