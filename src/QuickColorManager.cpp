@@ -2,15 +2,13 @@
 
 int main(int argc, char* argv[]) {
     MonitorGetter getter;
+    SettingsManager manager("settings.dat");
     auto monitors = getter.getAll();
-    App app(monitors);
-    ConsoleApp capp(app);
-    capp.parseArgs(argc, argv);
-    std::cout << app.doListDevices();
-
+    ConsoleApp app(monitors, manager);
+    manager.createDefaults(monitors);
 #ifndef NDEBUG
-    std::cout << "Press ENTER to exit.";
-    std::cin.get();
+    app.loop();
 #endif
+    app.parseArgs(argc, argv);
     return 0;
 };

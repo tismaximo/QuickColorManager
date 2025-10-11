@@ -1,11 +1,11 @@
 #include "../include/QuickColorManager.h"
 
 static void printSetUsageText() {
-	std::cout << "\tset <device-id> (-brightness, -contrast, -gamma, -red, -green, -blue): Apply one or more settings. Example usage: qcm set -brightness 70 -contrast 75 -red 100\n";
+	std::cout << "\tset <device-id> (-brightness, -contrast, -gamma, -red, -green, -blue): Apply one or more settings. Example usage: set -brightness 70 -contrast 75 -red 100\n";
 }
 
 static void printGetUsageText() {
-	std::cout << "\tget <device-id> (--brightness, --contrast, --gamma, --red, --green, --blue, --all, --maxvalues): Get one or more currently loaded settings. Example usage: qcm get -brightness -contrast --maxvalues. The --maxvalues flag will return the maximum admitted values for the selected settings.\n";
+	std::cout << "\tget <device-id> (--brightness, --contrast, --gamma, --red, --green, --blue, --all, --maxvalues): Get one or more currently loaded settings. Example usage: get -brightness -contrast --maxvalues. The --maxvalues flag will return the maximum admitted values for the selected settings.\n";
 }
 
 static void printSaveUsageText() {
@@ -20,7 +20,7 @@ static void printListUsageText() {
 	std::cout << "\tlist <settings|devices>: Lists all available settings or devices.\n";
 }
 
-static void printListUsageText() {
+static void printTestUsageText() {
 	std::cout << "\ttest: Runs a test on all devices. Will tell you which features are supported or unsupported by your devices.\n";
 }
 
@@ -43,6 +43,7 @@ static void printUsageText() {
 	printSaveUsageText();
 	printLoadUsageText();
 	printListUsageText();
+	printTestUsageText();
 }
 
 static void printInvalidArgument() {
@@ -59,15 +60,15 @@ static void printSettingNotFound(std::string alias) {
 
 ConsoleApp::ConsoleApp(std::vector<Monitor> monitors, SettingsManager manager): App(monitors, manager) {}
 
-std::pair<std::string, uint8_t> ConsoleApp::parseArgValue(std::string searchArg, char arg[], char value[]) {
-	std::pair<std::string, uint8_t> ret("", -1);
+std::pair<std::string, U8> ConsoleApp::parseArgValue(std::string searchArg, char arg[], char value[]) {
+	std::pair<std::string, U8> ret("", 0);
 	std::string argument(arg);
 
 	if (argument != searchArg) {
 		return ret;
 	}
 
-	uint8_t val = valueFromArg(value);
+	int val = valueFromArg(value);
 	if (val < 0) {
 		Logger::log("ERROR: Invalid value or no value given for argument: " + argument);
 		return ret;
@@ -78,9 +79,9 @@ std::pair<std::string, uint8_t> ConsoleApp::parseArgValue(std::string searchArg,
 	return ret;
 }
 
-bool ConsoleApp::pushArgTo(std::string searchArg, char arg[], char value[], std::vector<std::string>& features, std::vector<uint8_t>& vals) {
+bool ConsoleApp::pushArgTo(std::string searchArg, char arg[], char value[], std::vector<std::string>& features, std::vector<U8>& vals) {
 	auto argValue = parseArgValue(searchArg, arg, value);
-	if (argValue.second >= 0) {
+	if (argValue.first != "") {
 		features.push_back(argValue.first);
 		vals.push_back(argValue.second);
 		return true;
@@ -107,7 +108,7 @@ int ConsoleApp::parseArgs(int argc, char* argv[]) {
 		}
 		
 		std::vector<std::string> features;
-		std::vector<uint8_t> vals;
+		std::vector<U8> vals;
 
 		for (int i = 3; i < argc; i = i+2) {
 			bool found = false;
@@ -125,13 +126,13 @@ int ConsoleApp::parseArgs(int argc, char* argv[]) {
 	}
 
 	if (strcmp(argv[1], "get") == 0) {
-		if (argc != 4) {
+		if (argc < 4) {
 			printGetUsageText();
 			return 0;
 		}
 
 		std::vector<std::string> features;
-		std::vector<uint8_t> vals;
+		std::vector<U8> vals;
 		bool maxvalues = false;
 		bool all = false;
 
@@ -141,23 +142,24 @@ int ConsoleApp::parseArgs(int argc, char* argv[]) {
 				continue; // acabar el loop, no hace falta continuar
 			}
 
-			if (argv[i] == "--maxvalues") {
+			if (strcmp(argv[i], "--maxvalues") == 0) {
 				maxvalues = true;
 				continue;
 			}
 
-			if (argv[i] == "--all") {
+			if (strcmp(argv[i], "--all") == 0) {
 				all = true;
-				features = std::vector<std::string>();
+				features.clear();
 				for (auto arg : VCP_ARGS) {
 					features.push_back(arg.first);
+					vals.push_back(0);
 				}
 				continue;
 			}
 
 			bool found = all;
 			if (!all) for (auto arg : VCP_ARGS) {
-				if ( argv[i] == arg.first || found ) {
+				if ( argv[i] == arg.first ) {
 					found = true;
 					features.push_back(arg.first);
 					vals.push_back(0);
@@ -179,13 +181,17 @@ int ConsoleApp::parseArgs(int argc, char* argv[]) {
 		for (int i = 0; i < features.size(); i++) {
 			auto arg = VCP_ARGS.find(features[i]);
 			auto str = VCP_STRINGS.find(arg->second);
-			std::cout << str->first << ": " << vals[i] << "\n";
+			std::cout << str->second << ": " << vals[i] << "\n";
 		}
 		return 0;
 	}
 
 	if (strcmp(argv[1], "save") == 0) {
-		if (argc != 4) {
+		if (argc > 4) {
+			Logger::log("INFO: The settings alias shouldnt have any spaces");
+			return 0;
+		}
+		if (argc < 4) {
 			printSaveUsageText();
 			return 0;
 		}
@@ -193,7 +199,11 @@ int ConsoleApp::parseArgs(int argc, char* argv[]) {
 	}
 
 	if (strcmp(argv[1], "load") == 0) {
-		if (argc != 4) {
+		if (argc > 4) {
+			Logger::log("INFO: The settings alias shouldnt have any spaces");
+			return 0;
+		}
+		if (argc < 4) {
 			printLoadUsageText();
 			return 0;
 		}
@@ -206,11 +216,19 @@ int ConsoleApp::parseArgs(int argc, char* argv[]) {
 			return 0;
 		}
 		else if (strcmp(argv[2], "devices") == 0) {
+			std::cout << "Found the following devices (ID | DeviceName | DeviceString): \n";
 			printList(this->doListDevices());
 			return 0;
 		}
 		else if (strcmp(argv[2], "settings") == 0) {
-			printList(this->doListSettings());
+			std::vector<std::string> list = this->doListSettings();
+			if (list.size() > 0) {
+				std::cout << "Found the following setting aliases in the settings file: " << "\n";
+				printList(list);
+			}
+			else {
+				std::cout << "Didnt find any settings in the settings file. Create a setting alias from the current device settings by running 'save <device-id> <alias>'" << "\n";
+			}
 			return 0;
 		}
 		else {
@@ -219,5 +237,46 @@ int ConsoleApp::parseArgs(int argc, char* argv[]) {
 		}
 	}
 
+	if (strcmp(argv[1], "test") == 0) {
+		Tester::testAll(this->monitors);
+		return 0;
+	}
+
 	return 0;
+}
+
+void ConsoleApp::loop() {
+	printUsageText();
+	while (true) {
+		std::string in, word;
+		std::cout << "Enter a command: ";
+		std::getline(std::cin, in);
+		in.insert(0, "qcm ");
+
+		int argc = 0;
+		std::stringstream ss(in);
+		std::vector<std::string> words;
+		while (ss >> word) {
+			argc++;
+			words.push_back(word);
+		}
+
+		char** newargs = static_cast<char**>(malloc(sizeof(char*) * argc));
+		int size = 32;
+
+		for (int i = 0; i < argc; i++) {
+			newargs[i] = static_cast<char*>(malloc(sizeof(char) * size));
+		}
+
+		for (int i = 0; i < argc; i++) {
+			strcpy_s(newargs[i], size, words[i].c_str());
+		}
+
+		parseArgs(argc, newargs);
+
+		for (int i = 0; i < argc; i++) {
+			free(newargs[i]);
+		}
+		free(newargs);
+	}
 }

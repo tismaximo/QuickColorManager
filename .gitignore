@@ -364,3 +364,6 @@ FodyWeavers.xsd
 
 # Log
 log.txt
+
+# Settings
+settings.dat

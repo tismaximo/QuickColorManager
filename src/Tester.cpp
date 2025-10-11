@@ -38,7 +38,6 @@ static bool findCapabilitiesInSubstring(const std::vector<int>& capabilities, co
 
 bool Tester::testAll(const std::vector<Monitor>& monitors) {
 	bool result = true;
-
 	for (Monitor m : monitors) {
 		result = Tester::testFeatures(m);
 	}
@@ -48,8 +47,13 @@ bool Tester::testAll(const std::vector<Monitor>& monitors) {
 
 bool Tester::testFeatures(Monitor monitor) {
 	bool result = true;
+	std::string model = monitor.getMonitorString();
 	std::string str = monitor.getCapabilitiesString();
-	std::string model = monitor.getMonitorString(str);
+	if (str == "") {
+		Logger::log("Your monitor (" + model + ") is incompatible with this application. This might happen if youre on a laptop or if your screen doesnt support DDC/CI or if DDC/CI is disabled.");
+		return false;
+	}
+	
 	std::string match = "vcp(";
 	size_t startVcp = str.find(match);
 

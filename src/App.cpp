@@ -2,12 +2,12 @@
 
 App::App(std::vector<Monitor> monitors, SettingsManager manager): monitors(monitors), manager(manager) {}
 
-int App::doSet(int id, std::vector<std::string> features, std::vector<uint8_t> vals) {
+int App::doSet(int id, std::vector<std::string> features, std::vector<U8> vals) {
     if (id < 0 || id > this->monitors.size()) {
-        Logger::log("ERROR: Device with the following id not found: " + id);
+        Logger::log("ERROR: Device with the given id not found");
         return VAL_ERROR;
     }
-    Monitor m = this->monitors[id];
+    Monitor m = this->monitors[id - 1];
 
     for (int i = 0; i < features.size(); i++) {
         std::string arg = features[i];
@@ -18,15 +18,16 @@ int App::doSet(int id, std::vector<std::string> features, std::vector<uint8_t> v
         }
         m.set(it->second, vals[i]);
     }
+
+    return 0;
 }
 
-int App::doGet(int id, std::vector<std::string> features, std::vector<uint8_t>& vals, bool maxvalues) {
+int App::doGet(int id, std::vector<std::string> features, std::vector<U8>& vals, bool maxvalues) {
     if (id < 0 || id > this->monitors.size()) {
         Logger::log("ERROR: Device with the following id not found: " + id);
         return VAL_ERROR;
     }
-    Monitor m = this->monitors[id];
-
+    Monitor m = this->monitors[id - 1];
 
     for (int i = 0; i < features.size(); i++) {
         auto arg = VCP_ARGS.find(features[i]);
@@ -35,10 +36,7 @@ int App::doGet(int id, std::vector<std::string> features, std::vector<uint8_t>& 
             return ARG_ERROR;
         }
 
-        bool success = m.get(arg->second, vals[i]);
-        if (!success) {
-            return VAL_ERROR;
-        }
+        m.get(arg->second, vals[i], maxvalues);
     }
 
     return 0;
@@ -49,14 +47,12 @@ int App::doLoad(int id, std::string alias) {
         Logger::log("ERROR: Device with the following id not found: " + id);
         return VAL_ERROR;
     }
-    Monitor m = this->monitors[id];
+    Monitor m = this->monitors[id - 1];
 
     Settings settings(alias);
     if (!this->manager.load(alias, settings)) {
-        Logger::log("ERROR: Couldn't read from the settings file. Check that the file exists and that the program has read permissions.");
         return FILE_ERROR;
     }
-
     if (!this->manager.apply(m, settings)) {
         Logger::log("INFO: or more of the settings from the device couldn't be loaded from the settings file. Run 'qmc test' to see which (if any) features are unsupported by your device. Execution will continue.");
     }
@@ -69,7 +65,7 @@ int App::doSave(int id, std::string alias) {
         Logger::log("ERROR: Device with the following id not found: " + id);
         return VAL_ERROR;
     }
-    Monitor m = this->monitors[id];
+    Monitor m = this->monitors[id - 1];
 
     Settings settings(alias);
     if (!this->manager.getFromMonitor(m, settings)) {

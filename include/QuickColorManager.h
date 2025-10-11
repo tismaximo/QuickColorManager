@@ -23,6 +23,8 @@
 
 #pragma comment(lib, "Dxva2.lib")
 
+typedef unsigned short U8;
+
 static std::string hexString(const int& num) {
 	std::stringstream ss;
 	ss << std::uppercase << std::hex << std::setw(2) << std::setfill('0') << num;
@@ -35,20 +37,14 @@ static std::string unwide(const std::wstring& wstr) {
 	return converter.to_bytes(wstr);
 }
 
-static int valueFromArg(std::string arg) {
-	std::stringstream ss;
-	std::string word;
-
-	while (ss >> word) {
-		try {
-			return std::stoi(word);
-		}
-		catch (const std::invalid_argument& e) {
-			continue;
-		}
+static int valueFromArg(const std::string& arg) {
+	try {
+		int val = std::stoi(arg);
+		return val;
 	}
-
-	return -1;
+	catch (const std::invalid_argument& _) {
+		return -1;
+	}
 }
 
 enum CmdCapability {
@@ -72,7 +68,8 @@ enum VcpFeature {
 enum Errors {
 	ARG_ERROR,
 	VAL_ERROR,
-	FILE_ERROR
+	FILE_ERROR,
+	DEVICE_ERROR
 };
 
 
@@ -113,9 +110,9 @@ const std::map<std::string, VcpFeature> VCP_ARGS = {
 	{"-brightness", BRIGHTNESS},
 	{"-contrast", CONTRAST},
 	{"-gamma", GAMMA},
-	{"-redbalance", RED_BALANCE},
-	{"-greenbalance", GREEN_BALANCE},
-	{"-bluebalance", BLUE_BALANCE}
+	{"-red", RED_BALANCE},
+	{"-green", GREEN_BALANCE},
+	{"-blue", BLUE_BALANCE}
 };
 
 
@@ -123,20 +120,20 @@ const std::map<std::string, VcpFeature> VCP_ARGS = {
 struct Settings {
 public:
 	std::string alias;
-	uint8_t brightness;
-	uint8_t contrast;
-	uint8_t gamma;
-	uint8_t redBalance;
-	uint8_t greenBalance;
-	uint8_t blueBalance;
+	U8 brightness;
+	U8 contrast;
+	U8 gamma;
+	U8 redBalance;
+	U8 greenBalance;
+	U8 blueBalance;
 	Settings(
 		std::string alias,
-		uint8_t brightness   = 70,
-		uint8_t contrast     = 70,
-		uint8_t gamma        = 70,
-		uint8_t redBalance   = 70,
-		uint8_t greenBalance = 70,
-		uint8_t blueBalance  = 70
+		U8 brightness   = 70,
+		U8 contrast     = 70,
+		U8 gamma        = 70,
+		U8 redBalance   = 70,
+		U8 greenBalance = 70,
+		U8 blueBalance  = 70
 	) :
 		alias(alias),
 		brightness(brightness),
@@ -176,10 +173,10 @@ protected:
 	DISPLAY_DEVICE info;
 public:
 	Monitor(HANDLE, DISPLAY_DEVICE);
-	bool set(VcpFeature, uint8_t val);
-	bool get(VcpFeature, uint8_t& val);
+	bool set(VcpFeature, U8 val);
+	bool get(VcpFeature, U8& val, bool maxvalues = false);
 	std::string getCapabilitiesString();
-	std::string getMonitorString(std::string);
+	std::string getMonitorString();
 	DISPLAY_DEVICE getInfo();
 	bool operator==(const Monitor& that) const;
 	~Monitor();
@@ -209,6 +206,8 @@ public:
 	bool load(std::string alias, Settings&) const;
 	bool apply(Monitor, Settings);
 	bool getFromMonitor(Monitor, Settings&);
+	bool fileExists();
+	void createDefaults(std::vector<Monitor> monitors);
 	std::vector<std::string> list();
 };
 
@@ -218,8 +217,8 @@ protected:
 	SettingsManager manager;
 public:
 	App(std::vector<Monitor> monitors, SettingsManager manager);
-	int doSet(int id, std::vector<std::string> features, std::vector<uint8_t> vals);
-	int doGet(int id, std::vector<std::string> features, std::vector<uint8_t>& vals, bool maxvalues);
+	int doSet(int id, std::vector<std::string> features, std::vector<U8> vals);
+	int doGet(int id, std::vector<std::string> features, std::vector<U8>& vals, bool maxvalues);
 	int doLoad(int id, std::string settingsAlias);
 	int doSave(int id, std::string settingsAlias);
 	std::vector<std::string> doListDevices();
@@ -229,10 +228,11 @@ public:
 class ConsoleApp : public App {
 public:
 	ConsoleApp(std::vector<Monitor>, SettingsManager);
-	std::pair<std::string, uint8_t> parseArgValue(std::string searchArg, char arg[], char value[]);
+	std::pair<std::string, U8> parseArgValue(std::string searchArg, char arg[], char value[]);
 	int parseArgs(int argc, char* argv[]);
-	bool pushArgTo(std::string searchArg, char arg[], char value[], std::vector<std::string>& features, std::vector<uint8_t>& vals);
+	bool pushArgTo(std::string searchArg, char arg[], char value[], std::vector<std::string>& features, std::vector<U8>& vals);
 	void printList(std::vector<std::string>);
+	void loop();
 };
 
 #endif

@@ -7,7 +7,7 @@ DISPLAY_DEVICE Monitor::getInfo() {
 	return this->info;
 }
 
-bool Monitor::set(VcpFeature feature, uint8_t val) {
+bool Monitor::set(VcpFeature feature, U8 val) {
 	bool success = SetVCPFeature(this->handle, feature, val);
 
 	std::string text = hexString(feature);
@@ -26,10 +26,16 @@ bool Monitor::set(VcpFeature feature, uint8_t val) {
 }
 
 
-bool Monitor::get(VcpFeature feature, uint8_t& val) {
+bool Monitor::get(VcpFeature feature, U8& val, bool maxvalues) {
 	DWORD wordval = val;
-	bool success = GetVCPFeatureAndVCPFeatureReply(this->handle, feature, nullptr, &wordval, nullptr);
-
+	bool success = true;
+	if (maxvalues) {
+		success = GetVCPFeatureAndVCPFeatureReply(this->handle, feature, nullptr, nullptr, &wordval);
+	}
+	else {
+		success = GetVCPFeatureAndVCPFeatureReply(this->handle, feature, nullptr, &wordval, nullptr);
+	}
+	
 	std::string text = hexString(feature);
 	auto it = VCP_STRINGS.find(feature);
 	if (it != VCP_STRINGS.end()) {
@@ -61,13 +67,8 @@ std::string Monitor::getCapabilitiesString() {
 	return std::string(str.begin(), str.end());
 }
 
-std::string Monitor::getMonitorString(std::string str = "") {
-	if (str == "") str = this->getCapabilitiesString();
-	size_t start = str.find("type(");
-	size_t endFirst = str.find(")", start);
-	size_t endSecond = str.find(")", endFirst + 1);
-	size_t len = endSecond - start + 1;
-	return str.substr(start, len);
+std::string Monitor::getMonitorString() {
+	return unwide(getInfo().DeviceString);
 }
 
 bool Monitor::operator==(const Monitor& that) const{

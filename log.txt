@@ -158,3 +158,175 @@
 [2025-10-08 09:46:39] Feature NOT supported: Automatic adjust colors
 [2025-10-08 09:46:39] Feature supported: Restore
 [2025-10-08 09:46:39] The monitor (type(LCD)model(550)) doesnt support all VCP features, some features might not work on it. NOTE: The gamma feature is expected not to work in most monitors.
+[2025-10-11 09:54:36] This device is incompatible with this application. This might happen if youre on a laptop or if your screen doesnt support DDC/CI or if DDC/CI is disabled.
+[2025-10-11 09:54:51] ERROR: Unrecognized argument: --all
+[2025-10-11 09:54:57] ERROR: Unrecognized argument: --maxvalues
+[2025-10-11 09:55:07] Failed to get: Brightness
+[2025-10-11 09:56:50] ERROR: Unrecognized argument: --all
+[2025-10-11 09:57:41] ERROR: Unrecognized argument: --all
+[2025-10-11 09:58:45] Failed to get: Blue balance
+[2025-10-11 09:58:45] Failed to get: Brightness
+[2025-10-11 09:58:45] Failed to get: Contrast
+[2025-10-11 09:58:46] Failed to get: Gamma
+[2025-10-11 09:58:46] Failed to get: Green balance
+[2025-10-11 09:58:46] Failed to get: Red balance
+[2025-10-11 09:59:19] Failed to get: Blue balance
+[2025-10-11 09:59:19] Failed to get: Brightness
+[2025-10-11 09:59:19] Failed to get: Contrast
+[2025-10-11 09:59:19] Failed to get: Gamma
+[2025-10-11 09:59:19] Failed to get: Green balance
+[2025-10-11 09:59:19] Failed to get: Red balance
+[2025-10-11 10:00:41] Failed to get: Blue balance
+[2025-10-11 10:00:41] Failed to get: Brightness
+[2025-10-11 10:00:41] Failed to get: Contrast
+[2025-10-11 10:00:41] Failed to get: Gamma
+[2025-10-11 10:00:41] Failed to get: Green balance
+[2025-10-11 10:00:41] Failed to get: Red balance
+[2025-10-11 10:05:55] Failed to get: Blue balance
+[2025-10-11 10:05:55] Failed to get: Brightness
+[2025-10-11 10:05:55] Failed to get: Contrast
+[2025-10-11 10:05:56] Failed to get: Gamma
+[2025-10-11 10:05:56] Failed to get: Green balance
+[2025-10-11 10:05:56] Failed to get: Red balance
+[2025-10-11 10:12:31] This device is incompatible with this application. This might happen if youre on a laptop or if your screen doesnt support DDC/CI or if DDC/CI is disabled.
+[2025-10-11 10:12:35] Failed to get: Blue balance
+[2025-10-11 10:12:35] Failed to get: Brightness
+[2025-10-11 10:12:35] Failed to get: Contrast
+[2025-10-11 10:12:35] Failed to get: Gamma
+[2025-10-11 10:12:35] Failed to get: Green balance
+[2025-10-11 10:12:35] Failed to get: Red balance
+[2025-10-11 10:22:08] Failed to get: Brightness
+[2025-10-11 10:22:08] Failed to get: Contrast
+[2025-10-11 10:22:08] Failed to get: Gamma
+[2025-10-11 10:22:08] Failed to get: Red balance
+[2025-10-11 10:22:08] Failed to get: Green balance
+[2025-10-11 10:22:09] Failed to get: Blue balance
+[2025-10-11 10:22:09] INFO: One or more of the settings from the device couldn't be saved to the settings file. Run 'qmc test' to see which (if any) features are unsupported by your device. Execution will continue.
+[2025-10-11 10:22:09] Settings saved successfully.
+[2025-10-11 10:22:15] Error when opening the settings file. Make sure the file is in the same folder as this .exe and that it has read/write permissions
+[2025-10-11 10:22:15] ERROR: Couldn't read from the settings file. Check that the file exists and that the program has read permissions.
+[2025-10-11 10:25:04] Error when opening the settings file. Make sure the file is in the same folder as this .exe and that it has read/write permissions
+[2025-10-11 10:25:08] Failed to get: Brightness
+[2025-10-11 10:25:08] Failed to get: Contrast
+[2025-10-11 10:25:08] Failed to get: Gamma
+[2025-10-11 10:25:09] Failed to get: Red balance
+[2025-10-11 10:25:09] Failed to get: Green balance
+[2025-10-11 10:25:09] Failed to get: Blue balance
+[2025-10-11 10:25:09] INFO: One or more of the settings from the device couldn't be saved to the settings file. Run 'qmc test' to see which (if any) features are unsupported by your device. Execution will continue.
+[2025-10-11 10:25:09] Settings saved successfully.
+[2025-10-11 10:28:24] ERROR: Settings alias not found: alias
+[2025-10-11 10:28:24] ERROR: Couldn't read from the settings file. Check that the file exists and that the program has read permissions.
+[2025-10-11 10:28:37] Failed to get: Brightness
+[2025-10-11 10:28:37] Failed to get: Contrast
+[2025-10-11 10:28:37] Failed to get: Gamma
+[2025-10-11 10:28:37] Failed to get: Red balance
+[2025-10-11 10:28:37] Failed to get: Green balance
+[2025-10-11 10:28:37] Failed to get: Blue balance
+[2025-10-11 10:28:37] INFO: One or more of the settings from the device couldn't be saved to the settings file. Run 'qmc test' to see which (if any) features are unsupported by your device. Execution will continue.
+[2025-10-11 10:28:37] Settings saved successfully.
+[2025-10-11 10:28:40] ERROR: Settings alias not found: alias
+[2025-10-11 10:28:40] ERROR: Couldn't read from the settings file. Check that the file exists and that the program has read permissions.
+[2025-10-11 10:29:05] Failed to get: Blue balance
+[2025-10-11 10:29:05] Failed to get: Brightness
+[2025-10-11 10:29:05] Failed to get: Contrast
+[2025-10-11 10:29:05] Failed to get: Gamma
+[2025-10-11 10:29:05] Failed to get: Green balance
+[2025-10-11 10:29:05] Failed to get: Red balance
+[2025-10-11 10:33:45] Failed to get: Brightness
+[2025-10-11 10:33:45] Failed to get: Contrast
+[2025-10-11 10:33:45] Failed to get: Gamma
+[2025-10-11 10:33:45] Failed to get: Red balance
+[2025-10-11 10:33:45] Failed to get: Green balance
+[2025-10-11 10:33:45] Failed to get: Blue balance
+[2025-10-11 10:33:45] INFO: One or more of the settings from the device couldn't be saved to the settings file. Run 'qmc test' to see which (if any) features are unsupported by your device. Execution will continue.
+[2025-10-11 10:33:45] Settings saved successfully.
+[2025-10-11 10:33:47] ERROR: Settings alias not found: alias
+[2025-10-11 10:33:47] ERROR: Couldn't read from the settings file. Check that the file exists and that the program has read permissions.
+[2025-10-11 10:34:28] Failed to get: Brightness
+[2025-10-11 10:34:28] Failed to get: Contrast
+[2025-10-11 10:34:28] Failed to get: Gamma
+[2025-10-11 10:34:28] Failed to get: Red balance
+[2025-10-11 10:34:28] Failed to get: Green balance
+[2025-10-11 10:34:28] Failed to get: Blue balance
+[2025-10-11 10:34:28] INFO: One or more of the settings from the device couldn't be saved to the settings file. Run 'qmc test' to see which (if any) features are unsupported by your device. Execution will continue.
+[2025-10-11 10:34:28] Settings saved successfully.
+[2025-10-11 10:34:30] ERROR: Settings alias not found: alias
+[2025-10-11 10:34:30] ERROR: Couldn't read from the settings file. Check that the file exists and that the program has read permissions.
+[2025-10-11 10:36:13] Failed to get: Brightness
+[2025-10-11 10:36:13] Failed to get: Contrast
+[2025-10-11 10:36:13] Failed to get: Gamma
+[2025-10-11 10:36:13] Failed to get: Red balance
+[2025-10-11 10:36:13] Failed to get: Green balance
+[2025-10-11 10:36:13] Failed to get: Blue balance
+[2025-10-11 10:36:13] INFO: One or more of the settings from the device couldn't be saved to the settings file. Run 'qmc test' to see which (if any) features are unsupported by your device. Execution will continue.
+[2025-10-11 10:36:13] Settings saved successfully.
+[2025-10-11 10:36:15] ERROR: Settings alias not found: alias
+[2025-10-11 10:39:08] Failed to get: Brightness
+[2025-10-11 10:39:08] Failed to get: Contrast
+[2025-10-11 10:39:08] Failed to get: Gamma
+[2025-10-11 10:39:08] Failed to get: Red balance
+[2025-10-11 10:39:08] Failed to get: Green balance
+[2025-10-11 10:39:08] Failed to get: Blue balance
+[2025-10-11 10:39:08] INFO: One or more of the settings from the device couldn't be saved to the settings file. Run 'qmc test' to see which (if any) features are unsupported by your device. Execution will continue.
+[2025-10-11 10:39:08] Settings saved successfully.
+[2025-10-11 10:39:11] ERROR: Settings alias not found: alias
+[2025-10-11 10:45:28] Failed to get: Brightness
+[2025-10-11 10:45:28] Failed to get: Contrast
+[2025-10-11 10:45:28] Failed to get: Gamma
+[2025-10-11 10:45:28] Failed to get: Red balance
+[2025-10-11 10:45:28] Failed to get: Green balance
+[2025-10-11 10:45:28] Failed to get: Blue balance
+[2025-10-11 10:45:28] INFO: One or more of the settings from the device couldn't be saved to the settings file. Run 'qmc test' to see which (if any) features are unsupported by your device. Execution will continue.
+[2025-10-11 10:45:28] INFO: Replaced pre-existing settings with alias: alias
+[2025-10-11 10:45:49] Successfully set: Brightness
+[2025-10-11 10:45:49] Successfully set: Contrast
+[2025-10-11 10:45:49] Successfully set: Gamma
+[2025-10-11 10:45:49] Successfully set: Red balance
+[2025-10-11 10:45:49] Successfully set: Green balance
+[2025-10-11 10:45:49] Successfully set: Blue balance
+[2025-10-11 10:45:49] Settings loaded successfully.
+[2025-10-11 10:50:09] applying
+[2025-10-11 10:50:09] Successfully set: Brightness
+[2025-10-11 10:50:09] Successfully set: Contrast
+[2025-10-11 10:50:09] Successfully set: Gamma
+[2025-10-11 10:50:09] Successfully set: Red balance
+[2025-10-11 10:50:09] Successfully set: Green balance
+[2025-10-11 10:50:09] Successfully set: Blue balance
+[2025-10-11 10:50:09] Settings loaded successfully.
+[2025-10-11 10:59:24] Successfully set: Brightness
+[2025-10-11 10:59:24] Successfully set: Contrast
+[2025-10-11 10:59:24] Successfully set: Gamma
+[2025-10-11 10:59:24] Successfully set: Red balance
+[2025-10-11 10:59:24] Successfully set: Green balance
+[2025-10-11 10:59:24] Successfully set: Blue balance
+[2025-10-11 10:59:24] Settings loaded successfully.
+[2025-10-11 12:17:38] Failed to get: Brightness
+[2025-10-11 12:17:38] Failed to get: Contrast
+[2025-10-11 12:17:38] Failed to get: Gamma
+[2025-10-11 12:17:39] Failed to get: Red balance
+[2025-10-11 12:17:39] Failed to get: Green balance
+[2025-10-11 12:17:39] Failed to get: Blue balance
+[2025-10-11 12:17:39] INFO: One or more of the settings from the device couldn't be saved to the settings file. Run 'qmc test' to see which (if any) features are unsupported by your device. Execution will continue.
+[2025-10-11 12:17:39] Settings saved successfully.
+[2025-10-11 12:17:44] ERROR: Settings alias not found: alias
+[2025-10-11 12:36:32] Failed to get: Brightness
+[2025-10-11 12:36:33] Failed to get: Contrast
+[2025-10-11 12:36:33] Failed to get: Gamma
+[2025-10-11 12:36:33] Failed to get: Red balance
+[2025-10-11 12:36:33] Failed to get: Green balance
+[2025-10-11 12:36:33] Failed to get: Blue balance
+[2025-10-11 12:36:33] INFO: One or more of the settings from the device couldn't be saved to the settings file. Run 'qmc test' to see which (if any) features are unsupported by your device. Execution will continue.
+[2025-10-11 12:36:33] Settings saved successfully.
+[2025-10-11 12:36:35] Successfully set: Brightness
+[2025-10-11 12:36:35] Successfully set: Contrast
+[2025-10-11 12:36:35] Successfully set: Gamma
+[2025-10-11 12:36:35] Successfully set: Red balance
+[2025-10-11 12:36:35] Successfully set: Green balance
+[2025-10-11 12:36:35] Successfully set: Blue balance
+[2025-10-11 12:36:35] Settings loaded successfully.
+[2025-10-11 13:56:29] Failed to get: Blue balance
+[2025-10-11 13:56:29] Failed to get: Brightness
+[2025-10-11 13:56:29] Failed to get: Contrast
+[2025-10-11 13:56:29] Failed to get: Gamma
+[2025-10-11 13:56:29] Failed to get: Green balance
+[2025-10-11 13:56:29] Failed to get: Red balance
