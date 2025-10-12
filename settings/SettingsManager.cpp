@@ -2,7 +2,7 @@
 
 // escribir al archivo manualmente propiedad por propiedad para manejar std::string correctamente
 
-static void writeofstream(std::ofstream& file, const Settings& settings) {
+static void write(std::ofstream& file, const Settings& settings) {
     size_t strlen = settings.alias.size();
     file.write(reinterpret_cast<const char*>(&strlen), sizeof(strlen));
     file.write(settings.alias.data(), strlen); // se escribe el tamaño de la std string Y la std string, ifstream no puede saber que tamaño leer si no
@@ -14,37 +14,11 @@ static void writeofstream(std::ofstream& file, const Settings& settings) {
     file.write(reinterpret_cast<const char*>(&settings.blueBalance), sizeof(settings.blueBalance));
 }
 
-static void writefstream(std::fstream& file, const Settings& settings) {
-    size_t strlen = settings.alias.size();
-    file.write(reinterpret_cast<const char*>(&strlen), sizeof(strlen));
-    file.write(settings.alias.data(), strlen);
-    file.write(reinterpret_cast<const char*>(&settings.brightness), sizeof(settings.brightness));
-    file.write(reinterpret_cast<const char*>(&settings.contrast), sizeof(settings.contrast));
-    file.write(reinterpret_cast<const char*>(&settings.gamma), sizeof(settings.gamma));
-    file.write(reinterpret_cast<const char*>(&settings.redBalance), sizeof(settings.redBalance));
-    file.write(reinterpret_cast<const char*>(&settings.greenBalance), sizeof(settings.greenBalance));
-    file.write(reinterpret_cast<const char*>(&settings.blueBalance), sizeof(settings.blueBalance));
-}
-
-static bool readifstream(std::ifstream& file, Settings& settings) {
+static bool read(std::ifstream& file, Settings& settings) {
     size_t strlen;
     if (!file.read(reinterpret_cast<char*>(&strlen), sizeof(strlen))) return false;
     settings.alias.resize(strlen);
     if (!file.read(&settings.alias[0], strlen)) return false; // apunta al primer caracter del array interno de std::string y escribe sobre el
-    if (!file.read(reinterpret_cast<char*>(&settings.brightness), sizeof(settings.brightness))) return false;
-    if (!file.read(reinterpret_cast<char*>(&settings.contrast), sizeof(settings.contrast))) return false;
-    if (!file.read(reinterpret_cast<char*>(&settings.gamma), sizeof(settings.gamma))) return false;
-    if (!file.read(reinterpret_cast<char*>(&settings.redBalance), sizeof(settings.redBalance))) return false;
-    if (!file.read(reinterpret_cast<char*>(&settings.greenBalance), sizeof(settings.greenBalance))) return false;
-    if (!file.read(reinterpret_cast<char*>(&settings.blueBalance), sizeof(settings.blueBalance))) return false;
-    return true;
-}
-
-static bool readfstream(std::fstream& file, Settings& settings) {
-    size_t strlen;
-    if (!file.read(reinterpret_cast<char*>(&strlen), sizeof(strlen))) return false;
-    settings.alias.resize(strlen);
-    if (!file.read(&settings.alias[0], strlen)) return false;
     if (!file.read(reinterpret_cast<char*>(&settings.brightness), sizeof(settings.brightness))) return false;
     if (!file.read(reinterpret_cast<char*>(&settings.contrast), sizeof(settings.contrast))) return false;
     if (!file.read(reinterpret_cast<char*>(&settings.gamma), sizeof(settings.gamma))) return false;
@@ -61,16 +35,16 @@ bool SettingsManager::save(Settings settings) {
     static std::mutex mtx;
     std::lock_guard<std::mutex> lock(mtx);
 
-    std::fstream file(this->settingsPath, std::ios::out | std::ios::in | std::ios::binary | std::ios::trunc);
+    std::ifstream in(this->settingsPath, std::ios::binary);
 
-    if (!file.is_open()) {
-        file.open(this->settingsPath, std::ios::out | std::ios::binary);
-        file.close();
+    if (!in.is_open()) {
+        in.open(this->settingsPath, std::ios::out | std::ios::binary);
+        in.close();
 
-        file.open(this->settingsPath, std::ios::in | std::ios::out | std::ios::binary | std::ios::trunc);
+        in.open(this->settingsPath, std::ios::in | std::ios::out | std::ios::binary | std::ios::trunc);
     }
 
-    if (!file || !file.is_open()) {
+    if (!in || !in.is_open()) {
         Logger::log("Error when opening the settings file. Make sure the file is in the same folder as this .exe and that it has read/write permissions");
         return false;
     }
@@ -80,7 +54,7 @@ bool SettingsManager::save(Settings settings) {
 
     std::vector<Settings> all;
 
-    while (readfstream(file, temp)) {
+    while (read(in, temp)) {
         all.push_back(temp);
     }
 
@@ -94,10 +68,11 @@ bool SettingsManager::save(Settings settings) {
     if (!replace) {
         all.push_back(settings);
     }
-    file.close();
+    in.close();
+
     std::ofstream out(this->settingsPath, std::ios::binary | std::ios::trunc);
     for (Settings s : all) {
-        writeofstream(out, s);
+        write(out, s);
     }
 
     out.close();
@@ -115,7 +90,7 @@ bool SettingsManager::load(std::string alias, Settings& settings) const {
         return false;
     }
     
-    while (readifstream(in, settings)) {
+    while (read(in, settings)) {
         if (settings.alias == alias) {
             in.close();
             return true;
@@ -139,7 +114,7 @@ std::vector<std::string> SettingsManager::list() {
     std::string str;
     Settings settings("");
 
-    while (readifstream(in, settings)) {
+    while (read(in, settings)) {
         strs.push_back(settings.alias);
     }
 
@@ -151,7 +126,7 @@ bool SettingsManager::fileExists() {
     static std::mutex mtx;
     std::lock_guard<std::mutex> lock(mtx);
 
-    std::fstream file(this->settingsPath, std::ios::out | std::ios::in | std::ios::binary);
+    std::ifstream file(this->settingsPath);
 
     if (!file.is_open()) {
         return false;

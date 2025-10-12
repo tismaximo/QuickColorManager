@@ -35,16 +35,10 @@ const std::map<int, std::string> VCP_STRINGS = {
 };
 
 const std::map<std::string, VcpFeature> VCP_ARGS = {
-	{"-brightness", BRIGHTNESS},
-	{"-contrast", CONTRAST},
-	{"-gamma", GAMMA},
-	{"-red", RED_BALANCE},
-	{"-green", GREEN_BALANCE},
-	{"-blue", BLUE_BALANCE},
-	{"-br", BRIGHTNESS},
-	{"-c", CONTRAST},
-	{"-ga", GAMMA},
-	{"-r", RED_BALANCE},
-	{"-g", GREEN_BALANCE},
-	{"-b", BLUE_BALANCE}
+	{"brightness", BRIGHTNESS},
+	{"contrast", CONTRAST},
+	{"gamma", GAMMA},
+	{"red", RED_BALANCE},
+	{"green", GREEN_BALANCE},
+	{"blue", BLUE_BALANCE},
 };

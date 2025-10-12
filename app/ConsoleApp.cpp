@@ -112,7 +112,7 @@ int ConsoleApp::parseArgs(int argc, char* argv[]) {
 
 		for (int i = 3; i < argc; i = i+2) {
 			bool found = false;
-			for (auto arg : VCP_ARGS) {
+			for (const auto& arg : VCP_ARGS) {
 				found = pushArgTo(arg.first, argv[i], argv[i + 1], features, vals) || found; // chequear que el argumento sea valido y si lo es agregar el argumento y el valor a los vectores
 			}
 
@@ -150,7 +150,7 @@ int ConsoleApp::parseArgs(int argc, char* argv[]) {
 			if (strcmp(argv[i], "--all") == 0) {
 				all = true;
 				features.clear();
-				for (auto arg : VCP_ARGS) {
+				for (const auto& arg : VCP_ARGS) {
 					features.push_back(arg.first);
 					vals.push_back(0);
 				}
@@ -158,7 +158,7 @@ int ConsoleApp::parseArgs(int argc, char* argv[]) {
 			}
 
 			bool found = all;
-			if (!all) for (auto arg : VCP_ARGS) {
+			if (!all) for (const auto& arg : VCP_ARGS) {
 				if ( argv[i] == arg.first ) {
 					found = true;
 					features.push_back(arg.first);
