@@ -2,8 +2,13 @@
 Tool to quickly change, modify or apply different monitor settings such as brightness, contrast or color balances using DDC/CI.
 ## Command line version  
 https://github.com/tismaximo/QuickColorManager/releases/tag/v1.0.0  
-If the binary release is being detected as malware for you, you might have to compile the project yourself.  
-You will need to install the [Microsoft Visual C++ Libraries](https://learn.microsoft.com/es-es/cpp/windows/latest-supported-vc-redist?view=msvc-170#latest-supported-redistributable-version) if you don't already have them.
+This release is currently being false flagged as a trojan by Microsoft. If you can't download it directly from the release, you might have to compile the project yourself.  
+You will need to install the [Microsoft Visual C++ Libraries](https://learn.microsoft.com/es-es/cpp/windows/latest-supported-vc-redist?view=msvc-170#latest-supported-redistributable-version) and the [Windows SDK](https://developer.microsoft.com/es-es/windows/downloads/windows-sdk/) if you don't already have them. You can compile this project in Visual Studio 2022 or with CMake by running:  
+```
+cd build  
+cmake .. -G "Visual Studio 17 2022" -A x64  
+cmake --build . --config Release
+```
 ### Available commands:  
 - `list devices`: Lists all available devices. This command will give you the `device-id` parameter which will be passed to the next commands to specify the device to operate on.  
 - `list settings`: Lists all available settings. There will always be atleast one default settings option for each device.  
@@ -20,5 +25,5 @@ Example usage: `get 1 --all --maxvalues`
 ## GUI version
 WIP
 ## Notes
-- Most devices don't support gamma as a DDC/CI feature. Gamma could be implemented in the future by setting gamma ramps directly to the GPU through the Direct3D library but this is also often not supported.  
-- Most laptops dont support any DDC/CI features.
+- Most devices don't support changing gamma through DDC/CI. Gamma could be implemented in the future by setting gamma ramps directly to the GPU through the Direct3D library but this is also often not supported.  
+- Most laptops dont support DDC/CI.
