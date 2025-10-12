@@ -2,50 +2,10 @@
 #ifndef APP_HEADER_H
 #define APP_HEADER_H
 
-#include <iostream>
-#include <windows.h>
-#include <highlevelmonitorconfigurationapi.h>
-#include <lowlevelmonitorconfigurationapi.h>
-#include <physicalmonitorenumerationapi.h>
-#include <fstream>
-#include <string>
-#include <ctime>
-#include <vector>
-#include <map>
-#include <sstream>
-#include <iomanip> 
-#include <mutex>
-#include <thread>
-#include <algorithm>
-#include <codecvt>
-#include <cstdlib>
-#include <utility>
-
-#pragma comment(lib, "Dxva2.lib")
+#include "../Includes.h"
+#include "../Helpers.h"
 
 typedef unsigned short U8;
-
-static std::string hexString(const int& num) {
-	std::stringstream ss;
-	ss << std::uppercase << std::hex << std::setw(2) << std::setfill('0') << num;
-	std::string hexCode = ss.str();
-	return hexCode;
-}
-
-static std::string unwide(const std::wstring& wstr) {
-	std::wstring_convert<std::codecvt_utf8<wchar_t>> converter;
-	return converter.to_bytes(wstr);
-}
-
-static int valueFromArg(const std::string& arg) {
-	try {
-		int val = std::stoi(arg);
-		return val;
-	}
-	catch (const std::invalid_argument& _) {
-		return -1;
-	}
-}
 
 enum CmdCapability {
 	GET  = 0x01,
@@ -115,8 +75,6 @@ const std::map<std::string, VcpFeature> VCP_ARGS = {
 	{"-blue", BLUE_BALANCE}
 };
 
-
-
 struct Settings {
 public:
 	std::string alias;
@@ -159,6 +117,19 @@ struct MonitorInformationPair {
 public:
 	std::vector<PHYSICAL_MONITOR> monitors;
 	std::vector<DISPLAY_DEVICE> info;
+	void set(PHYSICAL_MONITOR m, DISPLAY_DEVICE d) {
+		monitors.push_back(m);
+		info.push_back(d);
+	}
+	std::pair<PHYSICAL_MONITOR, DISPLAY_DEVICE> get(unsigned int i) {
+		std::pair<PHYSICAL_MONITOR, DISPLAY_DEVICE> ret;
+		if (i > monitors.size() || i > info.size()) {
+			return ret;
+		}
+		ret.first = monitors[i];
+		ret.second = info[i];
+		return ret;
+	}
 };
 
 class Logger {

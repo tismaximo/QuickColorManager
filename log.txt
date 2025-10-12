@@ -330,3 +330,11 @@
 [2025-10-11 13:56:29] Failed to get: Gamma
 [2025-10-11 13:56:29] Failed to get: Green balance
 [2025-10-11 13:56:29] Failed to get: Red balance
+[2025-10-11 15:38:43] Failed to get: Brightness
+[2025-10-11 15:38:43] Failed to get: Contrast
+[2025-10-11 15:38:43] Failed to get: Gamma
+[2025-10-11 15:38:43] Failed to get: Red balance
+[2025-10-11 15:38:43] Failed to get: Green balance
+[2025-10-11 15:38:43] Failed to get: Blue balance
+[2025-10-11 15:38:43] INFO: One or more of the settings from the device couldn't be saved to the settings file. Run 'qmc test' to see which (if any) features are unsupported by your device. Execution will continue.
+[2025-10-11 15:38:43] Settings saved successfully.
