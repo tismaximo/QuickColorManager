@@ -1,4 +1,4 @@
-﻿#include "../include/QuickColorManager.h"
+﻿#include "QuickColorManager.h"
 
 int main(int argc, char* argv[]) {
     try {

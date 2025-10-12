@@ -1,4 +1,4 @@
-#include "../include/QuickColorManager.h"
+#include "Tester.h"
 
 static std::string findSubstrExcludeParenthesis(std::string str) {
 	size_t startPrths = 0;

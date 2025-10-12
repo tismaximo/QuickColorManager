@@ -1,4 +1,4 @@
-#include "../include/QuickColorManager.h"
+#include "ConsoleApp.h"
 
 static void printSetUsageText() {
 	std::cout << "\tset <device-id> (-brightness, -contrast, -gamma, -red, -green, -blue): Apply one or more settings. Example usage: set -brightness 70 -contrast 75 -red 100\n";

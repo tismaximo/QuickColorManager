@@ -1,5 +1,5 @@
 #pragma once
-#include "Includes.h"
+#include "../QuickColorManager.h"
 
 static std::string hexString(const int& num) {
 	std::stringstream ss;

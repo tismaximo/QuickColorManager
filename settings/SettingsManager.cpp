@@ -1,4 +1,4 @@
-#include "../include/QuickColorManager.h"
+#include "SettingsManager.h"
 
 // escribir al archivo manualmente propiedad por propiedad para manejar std::string correctamente
 

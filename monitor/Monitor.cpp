@@ -1,4 +1,4 @@
-#include "../include/QuickColorManager.h"
+#include "Monitor.h"
 
 Monitor::Monitor(HANDLE handle, DISPLAY_DEVICE info): handle(handle), info(info) {
 }

@@ -1,8 +1,8 @@
-#include "../include/QuickColorManager.h"
+#include "MonitorGetter.h"
 /*
     explicacion:
-    callback que se pasa a enumDisplayMonitors para buscar todos los monitores de todas las señales
-    por cada ejecucion busca uno o mas monitores fisicos recibiendo imagen de la misma señal y los agrega a pData por referencia
+    callback que se pasa a enumDisplayMonitors para buscar todos los monitores de todas las seï¿½ales
+    por cada ejecucion busca uno o mas monitores fisicos recibiendo imagen de la misma seï¿½al y los agrega a pData por referencia
 */
 BOOL CALLBACK MonitorEnumHandlers(HMONITOR hMon, HDC hdcMon, LPRECT lprcMon, LPARAM pData) {
     auto mip = reinterpret_cast<MonitorInformationPair*>(pData);

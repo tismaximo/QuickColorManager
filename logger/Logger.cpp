@@ -1,4 +1,4 @@
-#include "../include/QuickColorManager.h"
+#include "Logger.h"
 
 void Logger::log(const std::string& message) {
     static std::mutex mtx;

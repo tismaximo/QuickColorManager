@@ -1,4 +1,4 @@
-#include "../include/QuickColorManager.h"
+#include "App.h"
 
 App::App(std::vector<Monitor> monitors, SettingsManager manager): monitors(monitors), manager(manager) {}
 

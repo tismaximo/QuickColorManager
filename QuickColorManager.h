@@ -1,0 +1,84 @@
+﻿#pragma once
+#ifndef APP_HEADER_H
+#define APP_HEADER_H
+
+#include <iostream>
+#include <windows.h>
+#include <highlevelmonitorconfigurationapi.h>
+#include <lowlevelmonitorconfigurationapi.h>
+#include <physicalmonitorenumerationapi.h>
+#include <fstream>
+#include <string>
+#include <ctime>
+#include <vector>
+#include <map>
+#include <sstream>
+#include <iomanip> 
+#include <mutex>
+#include <thread>
+#include <algorithm>
+#include <codecvt>
+#include <cstdlib>
+#include <utility>
+
+#pragma comment(lib, "Dxva2.lib")
+
+#include "../helpers/Helpers.h"
+
+typedef unsigned short U8;
+
+enum CmdCapability {
+	GET  = 0x01,
+	SET  = 0x02,
+	SAVE = 0x03
+};
+
+enum VcpFeature {
+	 BRIGHTNESS	   = 0x10,
+	 CONTRAST      = 0x12,
+	 GAMMA         = 0x72,
+	 RED_BALANCE   = 0x16,
+	 GREEN_BALANCE = 0x18,
+	 BLUE_BALANCE  = 0x1A,
+	 AUTO_ADJUST   = 0xAE,
+	 AUTO_COLOR    = 0xAC,
+	 RESTORE	   = 0x04
+};
+
+enum Errors {
+	ARG_ERROR,
+	VAL_ERROR,
+	FILE_ERROR,
+	DEVICE_ERROR
+};
+
+struct Settings {
+public:
+	std::string alias;
+	U8 brightness;
+	U8 contrast;
+	U8 gamma;
+	U8 redBalance;
+	U8 greenBalance;
+	U8 blueBalance;
+	Settings(std::string alias,
+		U8 brightness = 70,
+		U8 contrast = 70,
+		U8 gamma = 70,
+		U8 redBalance = 70,
+		U8 greenBalance = 70,
+		U8 blueBalance = 70);
+	std::string str() const;
+};
+
+struct MonitorInformationPair;
+
+class Logger;
+class Monitor;
+class MonitorGetter;
+class Tester;
+class SettingsManager;
+class App;
+class ConsoleApp;
+
+#endif
