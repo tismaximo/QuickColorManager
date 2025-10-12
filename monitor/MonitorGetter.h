@@ -1,5 +1,6 @@
 #pragma once
 #include "../QuickColorManager.h"
+#include "Monitor.h"
 #include "MonitorTypes.h"
 
 class MonitorGetter {

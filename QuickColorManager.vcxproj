@@ -19,17 +19,30 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\App.cpp" />
-    <ClCompile Include="src\ConsoleApp.cpp" />
-    <ClCompile Include="src\Logger.cpp" />
-    <ClCompile Include="src\Monitor.cpp" />
-    <ClCompile Include="src\MonitorGetter.cpp" />
-    <ClCompile Include="src\QuickColorManager.cpp" />
-    <ClCompile Include="src\SettingsManager.cpp" />
-    <ClCompile Include="src\Tester.cpp" />
+    <ClCompile Include="app\App.cpp" />
+    <ClCompile Include="app\ConsoleApp.cpp" />
+    <ClCompile Include="config\Vcp.h" />
+    <ClCompile Include="logger\Logger.cpp" />
+    <ClCompile Include="monitor\Monitor.cpp" />
+    <ClCompile Include="monitor\MonitorGetter.cpp" />
+    <ClCompile Include="QuickColorManager.cpp" />
+    <ClCompile Include="settings\SettingsManager.cpp" />
+    <ClCompile Include="settings\SettingsTypes.h" />
+    <ClCompile Include="monitor\MonitorInformationPair.cpp" />
+    <ClCompile Include="settings\Settings.cpp" />
+    <ClCompile Include="test\Tester.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\QuickColorManager.h" />
+    <ClInclude Include="app\App.h" />
+    <ClInclude Include="app\ConsoleApp.h" />
+    <ClInclude Include="helpers\Helpers.h" />
+    <ClInclude Include="logger\Logger.h" />
+    <ClInclude Include="monitor\MonitorTypes.h" />
+    <ClInclude Include="monitor\Monitor.h" />
+    <ClInclude Include="monitor\MonitorGetter.h" />
+    <ClInclude Include="QuickColorManager.h" />
+    <ClInclude Include="settings\SettingsManager.h" />
+    <ClInclude Include="test\Tester.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>

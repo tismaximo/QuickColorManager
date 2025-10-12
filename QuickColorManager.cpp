@@ -1,4 +1,7 @@
 ﻿#include "QuickColorManager.h"
+#include "settings/SettingsManager.h"
+#include "monitor/MonitorGetter.h"
+#include "app/ConsoleApp.h"
 
 int main(int argc, char* argv[]) {
     try {

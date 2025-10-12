@@ -23,7 +23,7 @@
 
 #pragma comment(lib, "Dxva2.lib")
 
-#include "../helpers/Helpers.h"
+#include "helpers/Helpers.h"
 
 typedef unsigned short U8;
 
@@ -73,7 +73,12 @@ public:
 
 struct MonitorInformationPair;
 
-class Logger;
+class Logger {
+public:
+	static void log(const std::string& message);
+	static void log(std::vector<std::string> messages);
+};
+
 class Monitor;
 class MonitorGetter;
 class Tester;

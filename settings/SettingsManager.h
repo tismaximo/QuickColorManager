@@ -1,5 +1,7 @@
 #pragma once
 #include "../QuickColorManager.h"
+#include "../logger/Logger.h"
+#include "../monitor/Monitor.h"
 
 class SettingsManager {
 protected:
