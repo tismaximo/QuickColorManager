@@ -3,7 +3,8 @@ Tool to quickly change, modify or apply different monitor settings such as brigh
 ## Command line version  
 https://github.com/tismaximo/QuickColorManager/releases/tag/v1.0.0  
 This release is currently being false flagged as a trojan by Microsoft. If you can't download it directly from the release, you might have to compile the project yourself.  
-You will need to install the [Microsoft Visual C++ Libraries](https://learn.microsoft.com/es-es/cpp/windows/latest-supported-vc-redist?view=msvc-170#latest-supported-redistributable-version) and the [Windows SDK](https://developer.microsoft.com/es-es/windows/downloads/windows-sdk/) if you don't already have them. You can compile this project in Visual Studio 2022 or with CMake by running:  
+You will need to install the [Microsoft Visual C++ Libraries](https://learn.microsoft.com/es-es/cpp/windows/latest-supported-vc-redist?view=msvc-170#latest-supported-redistributable-version) and the [Windows SDK](https://developer.microsoft.com/es-es/windows/downloads/windows-sdk/) if you don't already have them.  
+You can compile this project in Visual Studio 2022 or with CMake by running:  
 ```
 cd build  
 cmake .. -G "Visual Studio 17 2022" -A x64  
