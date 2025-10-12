@@ -25,7 +25,7 @@
 
 #include "helpers/Helpers.h"
 
-typedef unsigned short U8;
+typedef unsigned short U16;
 
 enum CmdCapability {
 	GET  = 0x01,
@@ -55,19 +55,19 @@ enum Errors {
 struct Settings {
 public:
 	std::string alias;
-	U8 brightness;
-	U8 contrast;
-	U8 gamma;
-	U8 redBalance;
-	U8 greenBalance;
-	U8 blueBalance;
+	U16 brightness;
+	U16 contrast;
+	U16 gamma;
+	U16 redBalance;
+	U16 greenBalance;
+	U16 blueBalance;
 	Settings(std::string alias,
-		U8 brightness = 70,
-		U8 contrast = 70,
-		U8 gamma = 70,
-		U8 redBalance = 70,
-		U8 greenBalance = 70,
-		U8 blueBalance = 70);
+		U16 brightness = 70,
+		U16 contrast = 70,
+		U16 gamma = 70,
+		U16 redBalance = 70,
+		U16 greenBalance = 70,
+		U16 blueBalance = 70);
 	std::string str() const;
 };
 

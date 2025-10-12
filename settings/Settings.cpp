@@ -2,12 +2,12 @@
 
 Settings::Settings(
 	std::string alias,
-	U8 brightness,
-	U8 contrast,
-	U8 gamma,
-	U8 redBalance,
-	U8 greenBalance,
-	U8 blueBalance
+	U16 brightness,
+	U16 contrast,
+	U16 gamma,
+	U16 redBalance,
+	U16 greenBalance,
+	U16 blueBalance
 ):
 	alias(alias),
 	brightness(brightness),

@@ -7,7 +7,7 @@ DISPLAY_DEVICE Monitor::getInfo() {
 	return this->info;
 }
 
-bool Monitor::set(VcpFeature feature, U8 val) {
+bool Monitor::set(VcpFeature feature, U16 val) {
 	bool success = SetVCPFeature(this->handle, feature, val);
 
 	std::string text = hexString(feature);
@@ -26,7 +26,7 @@ bool Monitor::set(VcpFeature feature, U8 val) {
 }
 
 
-bool Monitor::get(VcpFeature feature, U8& val, bool maxvalues) {
+bool Monitor::get(VcpFeature feature, U16& val, bool maxvalues) {
 	DWORD wordval = val;
 	bool success = true;
 	if (maxvalues) {

@@ -2,7 +2,7 @@
 
 App::App(std::vector<Monitor> monitors, SettingsManager manager): monitors(monitors), manager(manager) {}
 
-int App::doSet(int id, std::vector<std::string> features, std::vector<U8> vals) {
+int App::doSet(int id, std::vector<std::string> features, std::vector<U16> vals) {
     if (id < 0 || id > this->monitors.size()) {
         Logger::log("ERROR: Device with the given id not found");
         return VAL_ERROR;
@@ -22,7 +22,7 @@ int App::doSet(int id, std::vector<std::string> features, std::vector<U8> vals) 
     return 0;
 }
 
-int App::doGet(int id, std::vector<std::string> features, std::vector<U8>& vals, bool maxvalues) {
+int App::doGet(int id, std::vector<std::string> features, std::vector<U16>& vals, bool maxvalues) {
     if (id < 0 || id > this->monitors.size()) {
         Logger::log("ERROR: Device with the following id not found: " + id);
         return VAL_ERROR;

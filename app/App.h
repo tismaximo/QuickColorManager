@@ -10,8 +10,8 @@ protected:
 	SettingsManager manager;
 public:
 	App(std::vector<Monitor> monitors, SettingsManager manager);
-	int doSet(int id, std::vector<std::string> features, std::vector<U8> vals);
-	int doGet(int id, std::vector<std::string> features, std::vector<U8>& vals, bool maxvalues);
+	int doSet(int id, std::vector<std::string> features, std::vector<U16> vals);
+	int doGet(int id, std::vector<std::string> features, std::vector<U16>& vals, bool maxvalues);
 	int doLoad(int id, std::string settingsAlias);
 	int doSave(int id, std::string settingsAlias);
 	std::vector<std::string> doListDevices();

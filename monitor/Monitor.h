@@ -9,8 +9,8 @@ protected:
 	DISPLAY_DEVICE info;
 public:
 	Monitor(HANDLE, DISPLAY_DEVICE);
-	bool set(VcpFeature, U8 val);
-	bool get(VcpFeature, U8& val, bool maxvalues = false);
+	bool set(VcpFeature, U16 val);
+	bool get(VcpFeature, U16& val, bool maxvalues = false);
 	std::string getCapabilitiesString();
 	std::string getMonitorString();
 	DISPLAY_DEVICE getInfo();

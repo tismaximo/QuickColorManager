@@ -60,8 +60,8 @@ static void printSettingNotFound(std::string alias) {
 
 ConsoleApp::ConsoleApp(std::vector<Monitor> monitors, SettingsManager manager): App(monitors, manager) {}
 
-std::pair<std::string, U8> ConsoleApp::parseArgValue(std::string searchArg, char arg[], char value[]) {
-	std::pair<std::string, U8> ret("", 0);
+std::pair<std::string, U16> ConsoleApp::parseArgValue(std::string searchArg, char arg[], char value[]) {
+	std::pair<std::string, U16> ret("", 0);
 	std::string argument(arg);
 
 	if (argument != searchArg) {
@@ -79,7 +79,7 @@ std::pair<std::string, U8> ConsoleApp::parseArgValue(std::string searchArg, char
 	return ret;
 }
 
-bool ConsoleApp::pushArgTo(std::string searchArg, char arg[], char value[], std::vector<std::string>& features, std::vector<U8>& vals) {
+bool ConsoleApp::pushArgTo(std::string searchArg, char arg[], char value[], std::vector<std::string>& features, std::vector<U16>& vals) {
 	auto argValue = parseArgValue(searchArg, arg, value);
 	if (argValue.first != "") {
 		features.push_back(argValue.first);
@@ -108,7 +108,7 @@ int ConsoleApp::parseArgs(int argc, char* argv[]) {
 		}
 		
 		std::vector<std::string> features;
-		std::vector<U8> vals;
+		std::vector<U16> vals;
 
 		for (int i = 3; i < argc; i = i+2) {
 			bool found = false;
@@ -132,7 +132,7 @@ int ConsoleApp::parseArgs(int argc, char* argv[]) {
 		}
 
 		std::vector<std::string> features;
-		std::vector<U8> vals;
+		std::vector<U16> vals;
 		bool maxvalues = false;
 		bool all = false;
 
