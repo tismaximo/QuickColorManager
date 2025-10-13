@@ -13,12 +13,12 @@ cmake --build . --config Release
 ### Available commands:  
 - `list devices`: Lists all available devices. This command will give you the `device-id` parameter which will be passed to the next commands to specify the device to operate on.  
 - `list settings`: Lists all available settings. There will always be atleast one default settings option for each device.  
-- `set <device-id> {-brightness -contrast -gamma -red -green -blue} <number>`: Set one or more device settings to the specified values.  
+- `set <device-id> {brightness contrast gamma red green blue} <number>`: Set one or more device settings to the specified values.  
 Example usage: `set 1 -brightness 80 -contrast 60 -blue 75`  
-- `get <device-id> {-brightness -contrast -gamma -red -green -blue} (--all --maxvalues)`: Get one or more device settings.  
+- `get <device-id> {brightness contrast gamma red green blue} (--all --maxvalues)`: Get one or more device settings.  
 The `--all` flag will give values for all settings.  
 The `--maxvalues` flag will give the maximum admitted values for each selected setting.  
-Example usage: `get 1 -brightness -contrast -blue`  
+Example usage: `get 1 brightness contrast blue`  
 Example usage: `get 1 --all --maxvalues`
 - `save <device-id> <alias>`: Saves the device's currently applied settings to an alias.  
 - `load <device-id> <alias>`: Loads settings from the alias into the specified device.
