@@ -17,20 +17,19 @@ bool Monitor::set(VcpFeature feature, U16 val) {
 	}
 
 	if (!success) {
-		Logger::log("Failed to set: " + text);
 		return false;
 	}
 
-	Logger::log("Successfully set: " + text);
 	return true;
 }
 
 
 bool Monitor::get(VcpFeature feature, U16& val, bool maxvalues) {
 	DWORD wordval = val;
+	DWORD maxval = val;
 	bool success = true;
 	if (maxvalues) {
-		success = GetVCPFeatureAndVCPFeatureReply(this->handle, feature, nullptr, nullptr, &wordval);
+		success = GetVCPFeatureAndVCPFeatureReply(this->handle, feature, nullptr, &wordval, &maxval);
 	}
 	else {
 		success = GetVCPFeatureAndVCPFeatureReply(this->handle, feature, nullptr, &wordval, nullptr);
@@ -43,12 +42,11 @@ bool Monitor::get(VcpFeature feature, U16& val, bool maxvalues) {
 	}
 
 	if (!success) {
-		Logger::log("Failed to get: " + text);
 		return false;
 	}
 
-	val = wordval;
-	Logger::log("Successfully got: " + text);
+	if (maxvalues) val = maxval;
+	else val = wordval;
 	return true;
 }
 
@@ -56,12 +54,12 @@ std::string Monitor::getCapabilitiesString() {
 	DWORD size = 0;
 
 	if (!GetCapabilitiesStringLength(this->handle, &size)) {
-		return std::string("");
+		throw DeviceException(this->getMonitorString());
 	}
 
 	std::vector<char> str(size);
 	if (!CapabilitiesRequestAndCapabilitiesReply(this->handle, str.data(), size)) {
-		return std::string("");
+		throw DeviceException(this->getMonitorString());
 	}
 
 	return std::string(str.begin(), str.end());

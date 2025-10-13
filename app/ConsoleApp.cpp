@@ -1,11 +1,11 @@
 #include "ConsoleApp.h"
 
 static void printSetUsageText() {
-	std::cout << "\tset <device-id> (-brightness, -contrast, -gamma, -red, -green, -blue): Apply one or more settings. Example usage: set -brightness 70 -contrast 75 -red 100\n";
+	std::cout << "\tset <device-id> (brightness, contrast, gamma, red, green, blue): Apply one or more settings. Example usage: set brightness 70 contrast 75 red 100\n";
 }
 
 static void printGetUsageText() {
-	std::cout << "\tget <device-id> (--brightness, --contrast, --gamma, --red, --green, --blue, --all, --maxvalues): Get one or more currently loaded settings. Example usage: get -brightness -contrast --maxvalues. The --maxvalues flag will return the maximum admitted values for the selected settings.\n";
+	std::cout << "\tget <device-id> (brightness, contrast, gamma, red, green, blue, all, maxvalues): Get one or more currently loaded settings. Example usage: get brightness contrast --maxvalues. The --maxvalues flag will return the maximum admitted values for the selected settings.\n";
 }
 
 static void printSaveUsageText() {
@@ -24,7 +24,21 @@ static void printTestUsageText() {
 	std::cout << "\ttest: Runs a test on all devices. Will tell you which features are supported or unsupported by your devices.\n";
 }
 
-static void printUsageText() {
+static void printInvalidArgument() {
+	std::cout << "Invalid argument. Run 'qmc' to see all available commands and valid options.";
+}
+
+static void printIdNotFound(int id) {
+	std::cout << "Device with the following id was not found: " << id << "\nRun 'qmc list devices' to see all the available devices and their ids.";
+}
+
+static void printSettingNotFound(std::string alias) {
+	std::cout << "Settings with the following alias were not found: " << alias << "\nRun 'qmc list settings' to see all the available settings and their aliases.";
+}
+
+ConsoleApp::ConsoleApp(std::vector<Monitor> monitors, SettingsManager manager): App(monitors, manager) {}
+
+void ConsoleApp::printUsageText() {
 	/*
 	Quick Color Manager is a tool that allows its users to easily change between color settings across multiple monitors.
 
@@ -46,20 +60,6 @@ static void printUsageText() {
 	printTestUsageText();
 }
 
-static void printInvalidArgument() {
-	std::cout << "Invalid argument. Run 'qmc' to see all available commands and valid options.";
-}
-
-static void printIdNotFound(int id) {
-	std::cout << "Device with the following id was not found: " << id << "\nRun 'qmc list devices' to see all the available devices and their ids.";
-}
-
-static void printSettingNotFound(std::string alias) {
-	std::cout << "Settings with the following alias were not found: " << alias << "\nRun 'qmc list settings' to see all the available settings and their aliases.";
-}
-
-ConsoleApp::ConsoleApp(std::vector<Monitor> monitors, SettingsManager manager): App(monitors, manager) {}
-
 std::pair<std::string, U16> ConsoleApp::parseArgValue(std::string searchArg, char arg[], char value[]) {
 	std::pair<std::string, U16> ret("", 0);
 	std::string argument(arg);
@@ -70,8 +70,7 @@ std::pair<std::string, U16> ConsoleApp::parseArgValue(std::string searchArg, cha
 
 	int val = valueFromArg(value);
 	if (val < 0) {
-		Logger::log("ERROR: Invalid value or no value given for argument: " + argument);
-		return ret;
+		throw ValueException(argument, val);
 	}
 
 	ret.first = argument;
@@ -101,7 +100,7 @@ int ConsoleApp::parseArgs(int argc, char* argv[]) {
 		return 0;
 	}
 
-	if (strcmp(argv[1], "set") == 0) {
+	else if (strcmp(argv[1], "set") == 0) {
 		if (argc < 4) {
 			printSetUsageText();
 			return 0;
@@ -117,15 +116,14 @@ int ConsoleApp::parseArgs(int argc, char* argv[]) {
 			}
 
 			if (!found) {
-				Logger::log("ERROR: Unrecognized argument: " + std::string(argv[i]));
-				return ARG_ERROR;
+				throw ArgumentException(argv[i]);
 			}
 		}
 
 		return this->doSet(atoi(argv[2]), features, vals);
 	}
 
-	if (strcmp(argv[1], "get") == 0) {
+	else if (strcmp(argv[1], "get") == 0) {
 		if (argc < 4) {
 			printGetUsageText();
 			return 0;
@@ -167,8 +165,7 @@ int ConsoleApp::parseArgs(int argc, char* argv[]) {
 			}
 
 			if (!found) {
-				Logger::log("ERROR: Unrecognized argument: " + std::string(argv[i]));
-				return ARG_ERROR;
+				throw ArgumentException(argv[i]);
 			}
 		}
 
@@ -186,7 +183,7 @@ int ConsoleApp::parseArgs(int argc, char* argv[]) {
 		return 0;
 	}
 
-	if (strcmp(argv[1], "save") == 0) {
+	else if (strcmp(argv[1], "save") == 0) {
 		if (argc > 4) {
 			Logger::log("INFO: The settings alias shouldnt have any spaces");
 			return 0;
@@ -198,7 +195,7 @@ int ConsoleApp::parseArgs(int argc, char* argv[]) {
 		return this->doSave(atoi(argv[2]), argv[3]);
 	}
 
-	if (strcmp(argv[1], "load") == 0) {
+	else if (strcmp(argv[1], "load") == 0) {
 		if (argc > 4) {
 			Logger::log("INFO: The settings alias shouldnt have any spaces");
 			return 0;
@@ -210,8 +207,8 @@ int ConsoleApp::parseArgs(int argc, char* argv[]) {
 		return this->doLoad(atoi(argv[2]), argv[3]);
 	}
 
-	if (strcmp(argv[1], "list") == 0) {
-		if (argc == 2) {
+	else if (strcmp(argv[1], "list") == 0) {
+		if (argc != 3) {
 			printListUsageText();
 			return 0;
 		}
@@ -232,21 +229,24 @@ int ConsoleApp::parseArgs(int argc, char* argv[]) {
 			return 0;
 		}
 		else {
-			printInvalidArgument();
-			return ARG_ERROR;
+			throw ArgumentException(argv[2]);
 		}
 	}
 
-	if (strcmp(argv[1], "test") == 0) {
+	else if (strcmp(argv[1], "test") == 0) {
 		Tester::testAll(this->monitors);
 		return 0;
+	}
+
+	else {
+		Logger::log("Unknown option: " + std::string(argv[1]));
+		return -1;
 	}
 
 	return 0;
 }
 
 void ConsoleApp::loop() {
-	printUsageText();
 	while (true) {
 		std::string in, word;
 		std::cout << "Enter a command: ";
@@ -278,5 +278,47 @@ void ConsoleApp::loop() {
 			free(newargs[i]);
 		}
 		free(newargs);
+	}
+}
+
+void ConsoleApp::runDebug() {
+	while (true)
+	{
+		try {
+			this->loop();
+		}
+		catch (const ICodedException& e) {
+			std::string what(e.what());
+			Logger::log("[ERROR] " + what);
+		}
+		catch (const std::exception& e) {
+			std::string what(e.what());
+			Logger::log("[ERROR] Program threw an exception: " + what);
+		}
+		catch (...) {
+			Logger::log("[ERROR] Program threw an unknown exception");
+		}
+
+	}
+}
+
+int ConsoleApp::runRelease(int argc, char* argv[]) {
+	try {
+		this->parseArgs(argc, argv);
+		return 0;
+	}
+	catch (const ICodedException& e) {
+		std::string what(e.what());
+		Logger::log("[ERROR] " + what);
+		return e.errorCode();
+	}
+	catch (const std::exception& e) {
+		std::string what(e.what());
+		Logger::log("[ERROR] Program threw an exception: " + what);
+		return -1;
+	}
+	catch (...) {
+		Logger::log("[ERROR] Program threw an unknown exception");
+		return -1;
 	}
 }

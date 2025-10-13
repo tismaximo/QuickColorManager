@@ -2,6 +2,7 @@
 #include "../QuickColorManager.h"
 #include "../logger/Logger.h"
 #include "../config/Vcp.h"
+#include "../exceptions/Exceptions.h"
 
 class Monitor {
 protected:

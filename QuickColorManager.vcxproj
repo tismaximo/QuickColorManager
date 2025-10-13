@@ -35,6 +35,7 @@
   <ItemGroup>
     <ClInclude Include="app\App.h" />
     <ClInclude Include="app\ConsoleApp.h" />
+    <ClInclude Include="exceptions\Exceptions.h" />
     <ClInclude Include="helpers\Helpers.h" />
     <ClInclude Include="logger\Logger.h" />
     <ClInclude Include="monitor\MonitorTypes.h" />

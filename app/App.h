@@ -3,6 +3,7 @@
 #include "../monitor/Monitor.h"
 #include "../settings/SettingsManager.h"
 #include "../config/Vcp.h"
+#include "../exceptions/Exceptions.h"
 
 class App {
 protected:

@@ -9,7 +9,7 @@ void MonitorInformationPair::set(PHYSICAL_MONITOR m, DISPLAY_DEVICE d) {
 std::pair<PHYSICAL_MONITOR, DISPLAY_DEVICE> MonitorInformationPair::get(unsigned int i) {
 	std::pair<PHYSICAL_MONITOR, DISPLAY_DEVICE> ret;
 	if (i > monitors.size() || i > info.size()) {
-		return ret;
+		throw NotFoundException(i);
 	}
 	ret.first = monitors[i];
 	ret.second = info[i];

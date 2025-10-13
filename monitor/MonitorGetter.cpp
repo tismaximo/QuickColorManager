@@ -6,8 +6,6 @@
 */
 BOOL CALLBACK MonitorEnumHandlers(HMONITOR hMon, HDC hdcMon, LPRECT lprcMon, LPARAM pData) {
     auto mip = reinterpret_cast<MonitorInformationPair*>(pData);
-    std::vector<PHYSICAL_MONITOR>* monitors = &mip->monitors;
-    std::vector<DISPLAY_DEVICE>* info = &mip->info;
 
     DWORD monitorCount = 0;
     if (!GetNumberOfPhysicalMonitorsFromHMONITOR(hMon, &monitorCount)) {
@@ -32,8 +30,7 @@ BOOL CALLBACK MonitorEnumHandlers(HMONITOR hMon, HDC hdcMon, LPRECT lprcMon, LPA
     }
 
     for (const PHYSICAL_MONITOR& pm : temp) {
-        monitors->push_back(pm);
-        info->push_back(dd);
+		mip->set(pm, dd); // para todos los monitores encontrados se agrega el monitor fisico y el device info (el device info es el mismo para todos los monitores fisicos)
     }
 
     return TRUE;

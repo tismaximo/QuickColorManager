@@ -20,6 +20,7 @@
 #include <codecvt>
 #include <cstdlib>
 #include <utility>
+#include <exception>
 
 #pragma comment(lib, "Dxva2.lib")
 
@@ -45,11 +46,12 @@ enum VcpFeature {
 	 RESTORE	   = 0x04
 };
 
-enum Errors {
+enum Error {
 	ARG_ERROR,
 	VAL_ERROR,
 	FILE_ERROR,
-	DEVICE_ERROR
+	DEVICE_ERROR,
+	OUT_OF_BOUNDS
 };
 
 struct Settings {
@@ -85,5 +87,12 @@ class Tester;
 class SettingsManager;
 class App;
 class ConsoleApp;
+
+class ICodedException;
+class ValueException;
+class ArgumentException;
+class FileException;
+class DeviceException;
+class NotFoundException;
 
 #endif

@@ -1,5 +1,6 @@
 #pragma once
 #include "../QuickColorManager.h"
+#include "../exceptions/Exceptions.h"
 
 struct MonitorInformationPair {
 public:

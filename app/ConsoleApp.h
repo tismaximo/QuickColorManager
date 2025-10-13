@@ -2,6 +2,8 @@
 #include "../QuickColorManager.h"
 #include "../test/Tester.h"
 #include "App.h"
+#include "../exceptions/Exceptions.h"
+#include "../settings/SettingsManager.h"
 
 class ConsoleApp : public App {
 public:
@@ -10,5 +12,8 @@ public:
 	int parseArgs(int argc, char* argv[]);
 	bool pushArgTo(std::string searchArg, char arg[], char value[], std::vector<std::string>& features, std::vector<U16>& vals);
 	void printList(std::vector<std::string>);
+	void printUsageText();
 	void loop();
+	void runDebug();
+	int runRelease(int argc, char* argv[]);
 };

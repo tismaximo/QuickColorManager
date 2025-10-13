@@ -31,6 +31,10 @@ static bool read(std::ifstream& file, Settings& settings) {
 SettingsManager::SettingsManager(std::string path): settingsPath(path) {
 }
 
+std::string SettingsManager::getSettingsPath() const {
+    return this->settingsPath;
+}
+
 bool SettingsManager::save(Settings settings) {
     static std::mutex mtx;
     std::lock_guard<std::mutex> lock(mtx);
@@ -45,8 +49,7 @@ bool SettingsManager::save(Settings settings) {
     }
 
     if (!in || !in.is_open()) {
-        Logger::log("Error when opening the settings file. Make sure the file is in the same folder as this .exe and that it has read/write permissions");
-        return false;
+		throw FileException(this->settingsPath);
     }
 
     Settings temp(settings.alias);
@@ -86,8 +89,7 @@ bool SettingsManager::load(std::string alias, Settings& settings) const {
     std::ifstream in(this->settingsPath, std::ios::binary);
 
     if (!in || !in.is_open()) {
-        Logger::log("Error when opening the settings file. Make sure the file is in the same folder as this .exe and that it has read/write permissions");
-        return false;
+		throw FileException(this->settingsPath);
     }
     
     while (read(in, settings)) {
@@ -98,7 +100,7 @@ bool SettingsManager::load(std::string alias, Settings& settings) const {
     }
 
     in.close();
-    Logger::log("ERROR: Settings alias not found: " + alias);
+    Logger::log("Settings alias not found: " + alias);
     return false;
 }
 
@@ -107,8 +109,7 @@ std::vector<std::string> SettingsManager::list() {
     std::vector<std::string> strs;
 
     if (!in || !in.is_open()) {
-        Logger::log("Error when opening the settings file. Make sure the file is in the same folder as this .exe and that it has read/write permissions");
-        return strs;
+        throw FileException(this->settingsPath);
     }
 
     std::string str;
@@ -158,7 +159,8 @@ bool SettingsManager::getFromMonitor(Monitor monitor, Settings& settings) {
 }
 
 void SettingsManager::createDefaults(std::vector<Monitor> monitors) {
-    if (!fileExists()) {
+    bool exists = fileExists();
+    if (!exists) {
         Logger::log("Creating default settings...");
         std::map<std::string, int> duplicates;
         bool success = true;
@@ -169,7 +171,7 @@ void SettingsManager::createDefaults(std::vector<Monitor> monitors) {
             std::string alias = "default-" + monStr;
             Settings temp("");
 
-            if (fileExists() && load(alias, temp)) {
+            if (exists && load(alias, temp)) {
                 int num = ++duplicates.find(alias)->second;
                 alias += num;
             }
