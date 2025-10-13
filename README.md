@@ -1,5 +1,5 @@
 # Quick Color Manager
-Tool to quickly change, modify or apply different monitor settings such as brightness, contrast or color balances using DDC/CI.
+Tool to quickly change, modify or apply different physical monitor settings such as brightness, contrast or color balances.
 ## Command line version  
 https://github.com/tismaximo/QuickColorManager/releases/tag/v1.0.0  
 This release is currently being false flagged as a trojan by Microsoft. If you can't download it directly from the release, you might have to compile the project yourself.  
@@ -26,5 +26,5 @@ Example usage: `get 1 --all --maxvalues`
 ## GUI version
 WIP
 ## Notes
-- Most devices don't support changing gamma through DDC/CI. Gamma could be implemented in the future by setting gamma ramps directly to the GPU through the Direct3D library but this is also often not supported.  
-- Most laptops dont support DDC/CI.
+- Most devices don't support changing gamma through the physical monitor settings. Gamma could be implemented in the future by setting gamma ramps directly to the GPU through the Direct3D library but this is also often not supported.  
+- Most laptops dont support any physical settings.
