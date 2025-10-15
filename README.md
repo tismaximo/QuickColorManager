@@ -13,9 +13,10 @@ cmake --build . --config Release
 ### Available commands:  
 - `list devices`: Lists all available devices. This command will give you the `device-id` parameter which will be passed to the next commands to specify the device to operate on.  
 - `list settings`: Lists all available settings. There will always be atleast one default settings option for each device.  
-- `set <device-id> {brightness contrast gamma red green blue} <number>`: Set one or more device settings to the specified values.  
+- `list args`: Lists the arguments that can be taken in by `set` and `get` (brightness, contrast, etc.).  
+- `set <device-id> {<arg-1> <number> <arg-2> <number>...}`: Set one or more device settings to the specified values.  
 Example usage: `set 1 -brightness 80 -contrast 60 -blue 75`  
-- `get <device-id> {brightness contrast gamma red green blue} (--all --maxvalues)`: Get one or more device settings.  
+- `get <device-id> {<arg-1> <arg-2>...} (--all --maxvalues)`: Get one or more device settings.  
 The `--all` flag will give values for all settings.  
 The `--maxvalues` flag will give the maximum admitted values for each selected setting.  
 Example usage: `get 1 brightness contrast blue`  
@@ -27,4 +28,4 @@ Example usage: `get 1 --all --maxvalues`
 WIP
 ## Notes
 - Most devices don't support changing gamma through the physical monitor settings. Gamma could be implemented in the future by setting gamma ramps directly to the GPU through the Direct3D library but this is also often not supported.  
-- Most laptops dont support any physical settings.
+- Most laptops dont support any physical settings.  
