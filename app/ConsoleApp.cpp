@@ -94,13 +94,14 @@ int ConsoleApp::parseArgs(int argc, char* argv[]) {
 
 		for (int i = 3; i < argc; i = i+2) {
 			bool found = false;
-			for (const auto& arg : VCP_ARGS) {
+			for (const auto& arg : VCP_ARG_ALIASES) {
 				int val;
 				if (i + 1 >= argc ||
 				(val = parseValue(argv[i + 1])) == -1) { // throw si no hay valor o si el valor no es un numero
 					throw NoValueException(argv[i]);
 				}
 				found = pushArgTo(arg.first, argv[i], argv[i + 1], features, vals) || found; // chequear que el argumento sea valido y si lo es agregar el argumento y el valor a los vectores
+				if (found) break;
 			}
 
 			if (!found) {
@@ -144,11 +145,12 @@ int ConsoleApp::parseArgs(int argc, char* argv[]) {
 			}
 
 			bool found = all;
-			if (!all) for (const auto& arg : VCP_ARGS) {
+			if (!all) for (const auto& arg : VCP_ARG_ALIASES) {
 				if ( argv[i] == arg.first ) {
 					found = true;
-					features.push_back(arg.first);
+					features.push_back(arg.second);
 					vals.push_back(0);
+					break;
 				}
 			}
 
@@ -215,6 +217,21 @@ int ConsoleApp::parseArgs(int argc, char* argv[]) {
 				std::cout << "Didnt find any settings in the settings file. Create a setting alias from the current device settings by running 'save <device-id> <alias>'" << "\n";
 			}
 			return 0;
+		}
+		else if (strcmp(argv[2], "args") == 0) {
+			std::map<std::string, std::vector<std::string>> orderedArgs;
+			for (const auto& arg : VCP_ARG_ALIASES) {
+				auto feature = VCP_ARGS.find(arg.second);
+				auto str = VCP_STRINGS.find(feature->second);
+				orderedArgs[str->second].push_back(arg.first);
+			}
+			for (const auto& arg : orderedArgs) {
+				std::cout << arg.first << ": ";
+				for (const auto& alias : arg.second) {
+					std::cout << alias << " ";
+				}
+				std::cout << "\n";
+			}
 		}
 		else {
 			throw ArgumentException(argv[2]);
