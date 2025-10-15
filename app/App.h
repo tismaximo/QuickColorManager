@@ -4,6 +4,8 @@
 #include "../settings/SettingsManager.h"
 #include "../config/Vcp.h"
 #include "../exceptions/Exceptions.h"
+#include "../test/Tester.h"
+#include "../helpers/Helpers.h"
 
 class App {
 protected:
@@ -17,4 +19,6 @@ public:
 	int doSave(int id, std::string settingsAlias);
 	std::vector<std::string> doListDevices();
 	std::vector<std::string> doListSettings();
+	bool doTest(std::vector<Monitor> monitors);
+	bool init();
 };

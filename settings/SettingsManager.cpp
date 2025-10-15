@@ -6,25 +6,15 @@ static void write(std::ofstream& file, const Settings& settings) {
     size_t strlen = settings.alias.size();
     file.write(reinterpret_cast<const char*>(&strlen), sizeof(strlen));
     file.write(settings.alias.data(), strlen); // se escribe el tamaño de la std string Y la std string, ifstream no puede saber que tamaño leer si no
-    file.write(reinterpret_cast<const char*>(&settings.brightness), sizeof(settings.brightness));
-    file.write(reinterpret_cast<const char*>(&settings.contrast), sizeof(settings.contrast));
-    file.write(reinterpret_cast<const char*>(&settings.gamma), sizeof(settings.gamma));
-    file.write(reinterpret_cast<const char*>(&settings.redBalance), sizeof(settings.redBalance));
-    file.write(reinterpret_cast<const char*>(&settings.greenBalance), sizeof(settings.greenBalance));
-    file.write(reinterpret_cast<const char*>(&settings.blueBalance), sizeof(settings.blueBalance));
+    file.write(reinterpret_cast<const char*>(&settings.values), sizeof(settings.values));
 }
 
 static bool read(std::ifstream& file, Settings& settings) {
-    size_t strlen;
+    size_t strlen, mapsize;
     if (!file.read(reinterpret_cast<char*>(&strlen), sizeof(strlen))) return false;
     settings.alias.resize(strlen);
     if (!file.read(&settings.alias[0], strlen)) return false; // apunta al primer caracter del array interno de std::string y escribe sobre el
-    if (!file.read(reinterpret_cast<char*>(&settings.brightness), sizeof(settings.brightness))) return false;
-    if (!file.read(reinterpret_cast<char*>(&settings.contrast), sizeof(settings.contrast))) return false;
-    if (!file.read(reinterpret_cast<char*>(&settings.gamma), sizeof(settings.gamma))) return false;
-    if (!file.read(reinterpret_cast<char*>(&settings.redBalance), sizeof(settings.redBalance))) return false;
-    if (!file.read(reinterpret_cast<char*>(&settings.greenBalance), sizeof(settings.greenBalance))) return false;
-    if (!file.read(reinterpret_cast<char*>(&settings.blueBalance), sizeof(settings.blueBalance))) return false;
+    if (!file.read(reinterpret_cast<char*>(&settings.values), sizeof(settings.values))) return false;
     return true;
 }
 
@@ -35,7 +25,7 @@ std::string SettingsManager::getSettingsPath() const {
     return this->settingsPath;
 }
 
-bool SettingsManager::save(Settings settings) {
+bool SettingsManager::save(Settings settings) const {
     static std::mutex mtx;
     std::lock_guard<std::mutex> lock(mtx);
 
@@ -104,7 +94,7 @@ bool SettingsManager::load(std::string alias, Settings& settings) const {
     return false;
 }
 
-std::vector<std::string> SettingsManager::list() {
+std::vector<std::string> SettingsManager::list() const {
     std::ifstream in(this->settingsPath, std::ios::binary);
     std::vector<std::string> strs;
 
@@ -123,7 +113,7 @@ std::vector<std::string> SettingsManager::list() {
     return strs;
 }
 
-bool SettingsManager::fileExists() {
+bool SettingsManager::fileExists() const {
     static std::mutex mtx;
     std::lock_guard<std::mutex> lock(mtx);
 
@@ -137,25 +127,25 @@ bool SettingsManager::fileExists() {
 }
 
 bool SettingsManager::apply(Monitor monitor, Settings settings) {
-    bool success = true;
-    success = monitor.set(BRIGHTNESS, settings.brightness) && success;
-    success = monitor.set(CONTRAST, settings.contrast) && success;
-    success = monitor.set(GAMMA, settings.gamma) && success;
-    success = monitor.set(RED_BALANCE, settings.redBalance) && success;
-    success = monitor.set(GREEN_BALANCE, settings.greenBalance) && success;
-    success = monitor.set(BLUE_BALANCE, settings.blueBalance) && success;
-    return success;
+    bool successAll = true;
+    for (auto it = settings.values.begin(); it != settings.values.end(); ++it) {
+        successAll = monitor.set(it->key, it->value) && successAll;
+	}
+    return successAll;
 }
 
 bool SettingsManager::getFromMonitor(Monitor monitor, Settings& settings) {
+    bool successAll = true;
     bool success = true;
-    success = monitor.get(BRIGHTNESS, settings.brightness) && success;
-    success = monitor.get(CONTRAST, settings.contrast) && success;
-    success = monitor.get(GAMMA, settings.gamma) && success;
-    success = monitor.get(RED_BALANCE, settings.redBalance) && success;
-    success = monitor.get(GREEN_BALANCE, settings.greenBalance) && success;
-    success = monitor.get(BLUE_BALANCE, settings.blueBalance) && success;
-    return success;
+    for (VcpFeature f : EXPECTED_VCP_CAPABILITIES) {
+        U16 value = 0;
+        success = monitor.get(f, value, false);
+		successAll = success && successAll;
+        if (success) {
+            settings.values.set(f, value);
+        }
+    }
+    return successAll;
 }
 
 void SettingsManager::createDefaults(std::vector<Monitor> monitors) {
@@ -163,14 +153,14 @@ void SettingsManager::createDefaults(std::vector<Monitor> monitors) {
     if (!exists) {
         Logger::log("Creating default settings...");
         std::map<std::string, int> duplicates;
-        bool success = true;
+        bool successAll = true;
 
         for (Monitor m : monitors) {
             std::string monStr = m.getMonitorString();
-            std::replace(monStr.begin(), monStr.end(), ' ', '-');
-            std::string alias = "default-" + monStr;
+            std::string alias = ministring(monStr);
             Settings temp("");
 
+			// si hay mas de un monitor igual se agrega un numero al final del alias para diferenciarlos
             if (exists && load(alias, temp)) {
                 int num = ++duplicates.find(alias)->second;
                 alias += num;
@@ -182,10 +172,10 @@ void SettingsManager::createDefaults(std::vector<Monitor> monitors) {
 
             Settings s(alias);
             getFromMonitor(m, s);
-            success = save(s) && success;
+            successAll = save(s) && successAll;
         }
 
-        if (success) {
+        if (successAll) {
             Logger::log("Default settings created successfully!");
         }
         else {

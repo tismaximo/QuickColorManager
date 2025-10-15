@@ -1,4 +1,3 @@
-#include "../QuickColorManager.h"
 #include "MonitorTypes.h"
 
 void MonitorInformationPair::set(PHYSICAL_MONITOR m, DISPLAY_DEVICE d) {

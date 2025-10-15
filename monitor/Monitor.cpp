@@ -3,18 +3,21 @@
 Monitor::Monitor(HANDLE handle, DISPLAY_DEVICE info): handle(handle), info(info) {
 }
 
-DISPLAY_DEVICE Monitor::getInfo() {
+DISPLAY_DEVICE Monitor::getInfo() const {
 	return this->info;
 }
 
-bool Monitor::set(VcpFeature feature, U16 val) {
-	bool success = SetVCPFeature(this->handle, feature, val);
-
-	std::string text = hexString(feature);
-	auto it = VCP_STRINGS.find(feature);
-	if (it != VCP_STRINGS.end()) {
-		text = it->second;
+bool Monitor::set(VcpFeature feature, U16 val) const {
+	U16 temp;
+	bool maxvalues = true;
+	if (!this->get(feature, temp, maxvalues)) {
+		return false;
 	}
+	if (val > temp) {
+		throw ValueException(VCP_STRINGS.at(feature), val, temp);
+	}
+	// chequear que el valor este dentro del rango permitido
+	bool success = SetVCPFeature(this->handle, feature, val);
 
 	if (!success) {
 		return false;
@@ -24,29 +27,24 @@ bool Monitor::set(VcpFeature feature, U16 val) {
 }
 
 
-bool Monitor::get(VcpFeature feature, U16& val, bool maxvalues) {
+bool Monitor::get(VcpFeature feature, U16& val, bool maxvalues) const {
 	DWORD wordval = val;
-	DWORD maxval = val;
 	bool success = true;
+
 	if (maxvalues) {
+		DWORD maxval = val;
 		success = GetVCPFeatureAndVCPFeatureReply(this->handle, feature, nullptr, &wordval, &maxval);
+		val = maxval;
 	}
 	else {
 		success = GetVCPFeatureAndVCPFeatureReply(this->handle, feature, nullptr, &wordval, nullptr);
-	}
-	
-	std::string text = hexString(feature);
-	auto it = VCP_STRINGS.find(feature);
-	if (it != VCP_STRINGS.end()) {
-		text = it->second;
+		val = wordval;
 	}
 
 	if (!success) {
 		return false;
 	}
 
-	if (maxvalues) val = maxval;
-	else val = wordval;
 	return true;
 }
 

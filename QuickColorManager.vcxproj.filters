@@ -39,17 +39,17 @@
     <ClCompile Include="test\Tester.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
-    <ClCompile Include="settings\SettingsTypes.h">
-      <Filter>Archivos de origen</Filter>
-    </ClCompile>
     <ClCompile Include="monitor\MonitorInformationPair.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
     <ClCompile Include="settings\Settings.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
+    <ClCompile Include="settings\SettingsTypes.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClCompile>
     <ClCompile Include="config\Vcp.h">
-      <Filter>Archivos de origen</Filter>
+      <Filter>Archivos de encabezado</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -84,6 +84,9 @@
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
     <ClInclude Include="exceptions\Exceptions.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="config\Messages.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
   </ItemGroup>

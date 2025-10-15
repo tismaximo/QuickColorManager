@@ -9,13 +9,8 @@ int App::doSet(int id, std::vector<std::string> features, std::vector<U16> vals)
     Monitor m = this->monitors[id - 1];
 
     for (int i = 0; i < features.size(); i++) {
-        std::string arg = features[i];
-        auto it = VCP_ARGS.find(arg);
-        if (it == VCP_ARGS.end()) {
-			throw ArgumentException(arg);
-        }
-
-        m.set(it->second, vals[i]);
+		VcpFeature feature = findFeatureByArg(features[i]);
+        m.set(feature, vals[i]);
     }
 
     return 0;
@@ -28,12 +23,11 @@ int App::doGet(int id, std::vector<std::string> features, std::vector<U16>& vals
     Monitor m = this->monitors[id - 1];
 
     for (int i = 0; i < features.size(); i++) {
-        auto arg = VCP_ARGS.find(features[i]);
-        if (arg == VCP_ARGS.end()) {
-			throw ArgumentException(features[i]);
+        VcpFeature feature = findFeatureByArg(features[i]);
+		U16 val = 0;
+        if (m.get(feature, val, maxvalues)) {
+			vals[i] = val;
         }
-
-        m.get(arg->second, vals[i], maxvalues); 
     }
 
     return 0;
@@ -72,6 +66,7 @@ int App::doSave(int id, std::string alias) {
     if (!this->manager.save(settings)) {
         throw FileException(this->manager.getSettingsPath());
     }
+
     Logger::log("Settings saved successfully.");
     return 0;
 }
@@ -94,4 +89,27 @@ std::vector<std::string> App::doListDevices() {
 
 std::vector<std::string> App::doListSettings() {
     return this->manager.list();
+}
+
+bool App::doTest(std::vector<Monitor> monitors) {
+    Logger::log("NOTE: Sometimes devices claim not to support some features even though they actually do. You may still try changing settings at your own risk.");
+    bool result;
+    try {
+        result = Tester::testAll(monitors);
+        return result;
+    }
+    catch (const DeviceException& e) {
+        std::string what(e.what());
+        Logger::log("[ERROR] " + what);
+        return false;
+	}
+}
+
+bool App::init() {
+    if (!this->manager.fileExists()) {
+        this->manager.createDefaults(this->monitors);
+        doTest(this->monitors);
+		return true; // significa que el archivo no existia y se creo uno nuevo, si es asi se debera mostrar la advertencia 
+    }
+    return false; // significa que el archivo ya existia
 }

@@ -4,7 +4,7 @@
     callback que se pasa a enumDisplayMonitors para buscar todos los monitores de todas las se�ales
     por cada ejecucion busca uno o mas monitores fisicos recibiendo imagen de la misma se�al y los agrega a pData por referencia
 */
-BOOL CALLBACK MonitorEnumHandlers(HMONITOR hMon, HDC hdcMon, LPRECT lprcMon, LPARAM pData) {
+static BOOL CALLBACK MonitorEnumHandlers(HMONITOR hMon, HDC hdcMon, LPRECT lprcMon, LPARAM pData) {
     auto mip = reinterpret_cast<MonitorInformationPair*>(pData);
 
     DWORD monitorCount = 0;

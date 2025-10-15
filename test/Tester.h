@@ -3,6 +3,7 @@
 #include "../logger/Logger.h"
 #include "../monitor/Monitor.h"
 #include "../config/Vcp.h"
+#include "../helpers/Helpers.h"
 
 class Tester {
 public:

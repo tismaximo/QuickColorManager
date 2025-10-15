@@ -1,39 +1,23 @@
 #include "ConsoleApp.h"
 
-static void printSetUsageText() {
-	std::cout << "\tset <device-id> (brightness, contrast, gamma, red, green, blue): Apply one or more settings. Example usage: set brightness 70 contrast 75 red 100\n";
-}
-
-static void printGetUsageText() {
-	std::cout << "\tget <device-id> (brightness, contrast, gamma, red, green, blue, all, maxvalues): Get one or more currently loaded settings. Example usage: get brightness contrast --maxvalues. The --maxvalues flag will return the maximum admitted values for the selected settings.\n";
-}
-
-static void printSaveUsageText() {
-	std::cout << "\tsave <device-id> <alias>: Saves the currently loaded settings from the device to the specified alias. \n";
-}
-
-static void printLoadUsageText() {
-	std::cout << "\tload <device-id> <alias>: Loads settings from an alias.\n";
-}
-
-static void printListUsageText() {
-	std::cout << "\tlist <settings|devices>: Lists all available settings or devices.\n";
-}
-
-static void printTestUsageText() {
-	std::cout << "\ttest: Runs a test on all devices. Will tell you which features are supported or unsupported by your devices.\n";
-}
-
-static void printInvalidArgument() {
-	std::cout << "Invalid argument. Run 'qmc' to see all available commands and valid options.";
-}
-
 static void printIdNotFound(int id) {
 	std::cout << "Device with the following id was not found: " << id << "\nRun 'qmc list devices' to see all the available devices and their ids.";
 }
 
 static void printSettingNotFound(std::string alias) {
 	std::cout << "Settings with the following alias were not found: " << alias << "\nRun 'qmc list settings' to see all the available settings and their aliases.";
+}
+
+static char getWarningInput() {
+	Logger::log(Messages::LOG_WARNING);
+	std::cout << "Have you read the warning and want to continue execution? you won't see this warning again. (Yes: y/No: any other input): ";
+	char input;
+	std::cin >> input;
+	if (std::tolower(input) != 'y') {
+		std::cout << "Execution cancelled by user.\n";
+		exit(0);
+	}
+	return std::tolower(input);
 }
 
 ConsoleApp::ConsoleApp(std::vector<Monitor> monitors, SettingsManager manager): App(monitors, manager) {}
@@ -50,14 +34,13 @@ void ConsoleApp::printUsageText() {
 	load <device-id> <alias>: Loads settings from an alias.
 	list <settings|devices>: Lists all available settings or devices.
 	*/
-	std::cout << "Quick Color Manager is a tool that allows its users to easily change between color settings across multiple monitors.\n\n";
-	std::cout << "Available commands:\n\n";
-	printSetUsageText();
-	printGetUsageText();
-	printSaveUsageText();
-	printLoadUsageText();
-	printListUsageText();
-	printTestUsageText();
+	std::cout << Messages::QMC_MESSAGE
+	<< Messages::TEST_HELP
+	<< Messages::SET_HELP
+	<< Messages::GET_HELP
+	<< Messages::SAVE_HELP
+	<< Messages::LOAD_HELP
+	<< Messages::LIST_HELP;
 }
 
 std::pair<std::string, U16> ConsoleApp::parseArgValue(std::string searchArg, char arg[], char value[]) {
@@ -68,7 +51,7 @@ std::pair<std::string, U16> ConsoleApp::parseArgValue(std::string searchArg, cha
 		return ret;
 	}
 
-	int val = valueFromArg(value);
+	int val = parseValue(value);
 	if (val < 0) {
 		throw ValueException(argument, val);
 	}
@@ -102,7 +85,7 @@ int ConsoleApp::parseArgs(int argc, char* argv[]) {
 
 	else if (strcmp(argv[1], "set") == 0) {
 		if (argc < 4) {
-			printSetUsageText();
+			std::cout << Messages::SET_HELP;
 			return 0;
 		}
 		
@@ -112,6 +95,11 @@ int ConsoleApp::parseArgs(int argc, char* argv[]) {
 		for (int i = 3; i < argc; i = i+2) {
 			bool found = false;
 			for (const auto& arg : VCP_ARGS) {
+				int val;
+				if (i + 1 >= argc ||
+				(val = parseValue(argv[i + 1])) == -1) { // throw si no hay valor o si el valor no es un numero
+					throw NoValueException(argv[i]);
+				}
 				found = pushArgTo(arg.first, argv[i], argv[i + 1], features, vals) || found; // chequear que el argumento sea valido y si lo es agregar el argumento y el valor a los vectores
 			}
 
@@ -125,7 +113,7 @@ int ConsoleApp::parseArgs(int argc, char* argv[]) {
 
 	else if (strcmp(argv[1], "get") == 0) {
 		if (argc < 4) {
-			printGetUsageText();
+			std::cout << Messages::GET_HELP;
 			return 0;
 		}
 
@@ -189,7 +177,7 @@ int ConsoleApp::parseArgs(int argc, char* argv[]) {
 			return 0;
 		}
 		if (argc < 4) {
-			printSaveUsageText();
+			std::cout << Messages::SAVE_HELP;
 			return 0;
 		}
 		return this->doSave(atoi(argv[2]), argv[3]);
@@ -201,7 +189,7 @@ int ConsoleApp::parseArgs(int argc, char* argv[]) {
 			return 0;
 		}
 		if (argc < 4) {
-			printLoadUsageText();
+			std::cout << Messages::LOAD_HELP;
 			return 0;
 		}
 		return this->doLoad(atoi(argv[2]), argv[3]);
@@ -209,7 +197,7 @@ int ConsoleApp::parseArgs(int argc, char* argv[]) {
 
 	else if (strcmp(argv[1], "list") == 0) {
 		if (argc != 3) {
-			printListUsageText();
+			std::cout << Messages::LIST_HELP;
 			return 0;
 		}
 		else if (strcmp(argv[2], "devices") == 0) {
@@ -234,7 +222,7 @@ int ConsoleApp::parseArgs(int argc, char* argv[]) {
 	}
 
 	else if (strcmp(argv[1], "test") == 0) {
-		Tester::testAll(this->monitors);
+		this->doTest(this->monitors);
 		return 0;
 	}
 
@@ -247,13 +235,14 @@ int ConsoleApp::parseArgs(int argc, char* argv[]) {
 }
 
 void ConsoleApp::loop() {
+	int argc;
 	while (true) {
 		std::string in, word;
 		std::cout << "Enter a command: ";
 		std::getline(std::cin, in);
 		in.insert(0, "qcm ");
 
-		int argc = 0;
+		argc = 0;
 		std::stringstream ss(in);
 		std::vector<std::string> words;
 		while (ss >> word) {
@@ -282,6 +271,7 @@ void ConsoleApp::loop() {
 }
 
 void ConsoleApp::runDebug() {
+	if (this->init()) getWarningInput();
 	while (true)
 	{
 		try {
@@ -304,6 +294,7 @@ void ConsoleApp::runDebug() {
 
 int ConsoleApp::runRelease(int argc, char* argv[]) {
 	try {
+		if (this->init()) getWarningInput();
 		this->parseArgs(argc, argv);
 		return 0;
 	}

@@ -1,5 +1,4 @@
 #pragma once
-#include "../QuickColorManager.h"
 #include "../test/Tester.h"
 #include "App.h"
 #include "../exceptions/Exceptions.h"

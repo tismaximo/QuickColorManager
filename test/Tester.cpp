@@ -12,9 +12,9 @@ static std::string findSubstrExcludeParenthesis(std::string str) {
 	return str;
 }
 
-static bool findCapabilitiesInSubstring(const std::vector<int>& capabilities, const std::map<int, std::string>& lookup, const std::string& substr) {
+static bool findCapabilitiesInSubstring(const std::vector<VcpFeature>& capabilities, const std::map<VcpFeature, std::string>& lookup, const std::string& substr) {
 	bool flag = true;
-	for (int cap : capabilities) {
+	for (VcpFeature cap : capabilities) {
 		std::string hexCode = hexString(cap);
 
 		size_t pos = substr.find(hexCode);
@@ -50,7 +50,7 @@ bool Tester::testFeatures(Monitor monitor) {
 	std::string model = monitor.getMonitorString();
 	std::string str = monitor.getCapabilitiesString();
 	if (str == "") {
-		Logger::log("Your monitor (" + model + ") is incompatible with this application. This might happen if youre on a laptop or if your screen doesnt support DDC/CI or if DDC/CI is disabled.");
+		Logger::log("Your monitor (" + model + ") didn't return a capabilities string, so its likely that its incompatible with this application. This might happen if youre on a laptop or if your screen doesnt support DDC/CI or if DDC/CI is disabled.");
 		return false;
 	}
 	

@@ -1,6 +1,4 @@
 ﻿#pragma once
-#ifndef APP_HEADER_H
-#define APP_HEADER_H
 
 #include <iostream>
 #include <windows.h>
@@ -24,7 +22,7 @@
 
 #pragma comment(lib, "Dxva2.lib")
 
-#include "helpers/Helpers.h"
+#include "config/Messages.h"
 
 typedef unsigned short U16;
 
@@ -35,15 +33,25 @@ enum CmdCapability {
 };
 
 enum VcpFeature {
-	 BRIGHTNESS	   = 0x10,
-	 CONTRAST      = 0x12,
-	 GAMMA         = 0x72,
-	 RED_BALANCE   = 0x16,
-	 GREEN_BALANCE = 0x18,
-	 BLUE_BALANCE  = 0x1A,
-	 AUTO_ADJUST   = 0xAE,
-	 AUTO_COLOR    = 0xAC,
-	 RESTORE	   = 0x04
+	BRIGHTNESS = 0x10,
+	CONTRAST = 0x12,
+	GAMMA = 0x72,
+	RED_BALANCE = 0x16,
+	GREEN_BALANCE = 0x18,
+	BLUE_BALANCE = 0x1A,
+	AUTO_ADJUST = 0xAE,
+	AUTO_COLOR = 0xAC,
+	RESTORE = 0x04,
+	SHARPNESS = 0x87,
+	SATURATION = 0x8A,
+	RED_SATURATION = 0x59,
+	YELLOW_SATURATION = 0x5A,
+	GREEN_SATURATION = 0x5B,
+	CYAN_SATURATION = 0x5C,
+	BLUE_SATURATION = 0x5D,
+	MAGENTA_SATURATION = 0x5E,
+	HUE = 0x8B,
+	NONE = 0x00
 };
 
 enum Error {
@@ -54,26 +62,10 @@ enum Error {
 	OUT_OF_BOUNDS
 };
 
-struct Settings {
-public:
-	std::string alias;
-	U16 brightness;
-	U16 contrast;
-	U16 gamma;
-	U16 redBalance;
-	U16 greenBalance;
-	U16 blueBalance;
-	Settings(std::string alias,
-		U16 brightness = 70,
-		U16 contrast = 70,
-		U16 gamma = 70,
-		U16 redBalance = 70,
-		U16 greenBalance = 70,
-		U16 blueBalance = 70);
-	std::string str() const;
-};
-
 struct MonitorInformationPair;
+struct Settings;
+struct SettingsFileVcpMap;
+struct VcpValuePtrPair;
 
 class Logger {
 public:
@@ -90,9 +82,8 @@ class ConsoleApp;
 
 class ICodedException;
 class ValueException;
+class NoValueException;
 class ArgumentException;
 class FileException;
 class DeviceException;
 class NotFoundException;
-
-#endif
