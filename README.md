@@ -24,8 +24,6 @@ Example usage: `get 1 --all --maxvalues`
 - `save <device-id> <alias>`: Saves the device's currently applied settings to an alias.  
 - `load <device-id> <alias>`: Loads settings from the alias into the specified device.
 - `test`: Runs a test which will tell you which (if any) features are supported by your devices.
-## GUI version
-WIP
 ## Notes
 - Most devices don't support changing gamma through the physical monitor settings. Gamma could be implemented in the future by setting gamma ramps directly to the GPU through the Direct3D library but this is also often not supported.  
 - Most laptops dont support any physical settings.  
